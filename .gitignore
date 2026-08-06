@@ -6,7 +6,14 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+# Environment files
 .env
+.env.*
+!.env.example
+!.env.*.example
+*.env
+*.env.*
+
 node_modules
 dist
 dist-ssr
@@ -16,6 +23,9 @@ dist-ssr
 contracts/**/assembly/target/
 contracts/**/*.wasm
 contracts/**/*.abi
+*.wasm
+*.abi
+
 
 
 # Editor directories and files

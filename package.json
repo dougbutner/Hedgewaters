@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
-    "build:contracts": "npm --prefix contracts run build"
+    "build:contracts": "cd contracts && eosio-cpp -abigen -I. -contract easyloan -o easyloan.wasm easyloan.cpp"
   },
   "dependencies": {
     "@proton/link": "^5.0.0",
