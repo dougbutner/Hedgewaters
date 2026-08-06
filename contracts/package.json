@@ -1,0 +1,24 @@
+{
+  "name": "liquity-x",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Liquity-X — Liquity V2 economics redesigned for Antelope/XPR",
+  "scripts": {
+    "build": "npm run build:oracle && npm run build:market && npm run build:position && npm run build:debt && npm run build:stability && npm run build:liquidation && npm run build:governance && npm run build:token",
+    "build:oracle": "npx proton-asc ./oracle/assembly/oracle.contract.ts",
+    "build:market": "npx proton-asc ./market/assembly/market.contract.ts",
+    "build:position": "npx proton-asc ./position/assembly/position.contract.ts",
+    "build:debt": "npx proton-asc ./debt/assembly/debt.contract.ts",
+    "build:stability": "npx proton-asc ./stability/assembly/stability.contract.ts",
+    "build:liquidation": "npx proton-asc ./liquidation/assembly/liquidation.contract.ts",
+    "build:governance": "npx proton-asc ./governance/assembly/governance.contract.ts",
+    "build:token": "npx proton-asc ./token/assembly/token.contract.ts"
+  },
+  "engines": {
+    "node": ">=18 <21"
+  },
+  "devDependencies": {
+    "proton-tsc": "^0.3.58",
+    "typescript": "4.9.5"
+  }
+}

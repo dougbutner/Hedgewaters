@@ -1,4 +1,4 @@
-# Welcome — start a game build
+# Welcome — Liquity-X
 
 Use this at the start of a session (human or AI).
 
@@ -6,24 +6,25 @@ Use this at the start of a session (human or AI).
 
 ## Script
 
-> This repo is a **vanilla XPR Network template**: WebAuth or Anchor, multi-account, push actions.  
-> It is meant for **games and playful apps**, not financial products.  
-> Pick a prompt from **`README.md`** (the 10 game prompts), or describe your own game in one sentence.  
-> For NFTs, follow **[WAX NFT Metadata Standards](https://github.com/currentxchange/WAX-NFT-Metadata-Standards)** and prefer **[Loot](https://github.com/currentxchange/loot)**-style staking patterns when staking display matters (`AI_BUILDER_GUIDE.md`).
+> Build **Liquity-X**: Liquity V2 economics redesigned for **Antelope / XPR**.  
+> Read **`research/`** before changing contracts (Vaults.sx breach is the threat model).  
+> Code: **`contracts/`**. References: **`reference contracts/`**. Rules: **`project directive.md`**.  
+> Overarching rule: **never derive protocol state from token balances after initialization.**
 
 ---
 
 ## Scope questions
 
-1. Which of the **10 README game prompts** (or what variant)?
-2. XPR only, or XPR + WAX NFTs?
-3. Browser UI only, or also a new smart contract?
-4. Keep black/gold + native `.btn` / `.input` / `.card`?
+1. Which phase in `research/IMPLEMENTATION-PLAN.md` (P2–P9)?
+2. Testnet account names for the eight contracts?
+3. First collateral market (symbol + token contract)?
+4. UI this session, contracts, or both?
 
 ---
 
 ## After answers
 
+- Prefer Antelope execution rules over Liquity Solidity patterns.
 - Keep `src/services/*` and `useProton` unless fixing a wallet bug.
-- Add game UI under `src/pages` / `src/components`.
 - Contracts → `.agents/skills/smart-contracts/SKILL.md` + `skill/safety-guidelines.md`.
+- Never alter deployed table schemas that already hold rows.
