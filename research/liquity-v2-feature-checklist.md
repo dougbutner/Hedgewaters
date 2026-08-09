@@ -54,7 +54,7 @@
 | 25% InterestRouter / PIL / LQTY voting | Governance bloat |
 | Worst-price / composite LST oracle rules | Simple feed OK |
 | Zappers / multiply | Later / frontend |
-| Separate Active/Default/Surplus/Gas contracts | Tables in `hedgecdp` |
+| Separate Active/Default/Surplus/Gas contracts | Tables in `flexloans` |
 | SCR shutdown + urgent redemption | Later |
 | Premature rate-change fee | Later polish |
 | EIP-2612 permit | N/A |

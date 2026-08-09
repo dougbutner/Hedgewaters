@@ -1,16 +1,8 @@
 # Implementation plan
 
-## Product A — Hedge CDP (core finance)
+## Product A — flexloans (done scaffold)
 
-1. `hxusd`  
-2. `hedgecdp` markets + oracle  
-3. Borrow loop (open/coll/borrow/repay/close)  
-4. Rate buckets + interest → SP  
-5. Stability Pool  
-6. Liquidations + surplus  
-7. Redemptions + zombies  
-
-Acceptance: MUST rows in `liquity-v2-feature-checklist.md`.
+`contracts/flexloans.hpp|cpp` — compiles. Next: testnet deploy with HXUSD token (issuer = flexloans), markets, oracle `setprice`, borrow loop smoke test.
 
 ## Product B — easyloan
 

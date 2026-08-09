@@ -35,7 +35,7 @@ For generating code:
 
 Follow strictly the project parameters in parameters.md
 
-Architecture: **`project directive.md`** — Product A Hedge CDP (Liquity **financial core**) + Product B EASY half-loan.  
+Architecture: **`project directive.md`** — Product A `flexloans` (Liquity financial core) + Product B `easyloan`.  
 On-chain: **C++ Antelope CDT only**.  
 Research: **`research/liquity-v2-feature-checklist.md`**, **`research/easy-half-loan.md`**, **`research/vaults-sx-breach.md`**.
 

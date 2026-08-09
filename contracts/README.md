@@ -1,22 +1,20 @@
 # Hedgewaters contracts
 
-**C++ / Antelope CDT only.** No TypeScript on-chain code.
+**C++ / Antelope CDT only.**
 
 | Product | Files | Role |
 |---------|-------|------|
-| A — Hedge CDP | `hxusd.*`, `hedgecdp.*` | Liquity-inspired CDP (HXUSD, rates, SP, liq, redeem) |
+| A — Hedge CDP | `flexloans.*` | Liquity-inspired CDP (HXUSD via external token issuer) |
 | B — EASY Half-Loan | `easyloan.*` | EASY 50/50 Alcor + reflections |
 
-See **`../project directive.md`** and **`../research/liquity-v2-feature-checklist.md`**.
+See **`../project directive.md`**.
 
 ## Build
 
 ```bash
 cd contracts
-eosio-cpp -abigen -I. -contract easyloan -o easyloan.wasm easyloan.cpp
-# when added:
-# eosio-cpp -abigen -I. -contract hxusd    -o hxusd.wasm    hxusd.cpp
-# eosio-cpp -abigen -I. -contract hedgecdp -o hedgecdp.wasm hedgecdp.cpp
+eosio-cpp -abigen -I. -contract flexloans -o flexloans.wasm flexloans.cpp
+eosio-cpp -abigen -I. -contract easyloan  -o easyloan.wasm  easyloan.cpp
 ```
 
-Style: `reference contracts/legacy-xpr/ups.hpp` + `invitono.cpp`.
+Style: ups.hpp tables + invitono.cpp sections.
