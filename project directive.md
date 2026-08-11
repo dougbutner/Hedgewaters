@@ -21,9 +21,19 @@ contracts/
   flexloans.hpp / flexloans.cpp   # Product A
   easyloan.hpp / easyloan.cpp     # Product B
   README.md
+tests/                            # ALL tests live here (only)
 ```
 
 HXUSD = external `eosio.token` (or equivalent); `flexloans` is issuer (`issue` / `retire`).
+
+---
+
+## 0b. Testing (mandatory)
+
+- **All tests** live under **`tests/`** — unit, math, ABI/smoke, integration.
+- **Do not** put tests in `contracts/`, `src/`, `research/`, or elsewhere.
+- Run: `npm test` (vitest includes `tests/**` only).
+- Contract build check is part of the test suite when `eosio-cpp` is available.
 
 ---
 
@@ -87,6 +97,7 @@ See `research/easy-half-loan.md` and `contracts/easyloan.*`. Not a Liquity trove
 
 1. This directive  
 2. `contracts/flexloans.*` / `easyloan.*`  
-3. `research/liquity-v2-feature-checklist.md`  
-4. `research/vaults-sx-breach.md`  
-5. Liquity docs — economics reference only  
+3. `tests/` (behavior checks)  
+4. `research/liquity-v2-feature-checklist.md`  
+5. `research/vaults-sx-breach.md`  
+6. Liquity docs — economics reference only  

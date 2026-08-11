@@ -1,11 +1,11 @@
 import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  plugins: [react()],
   test: {
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    // Directive: all tests live under tests/ only — nowhere else
+    include: ["tests/**/*.{test,spec}.{ts,tsx,js}"],
+    exclude: ["**/node_modules/**", "**/reference contracts/**", "src/**"],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },

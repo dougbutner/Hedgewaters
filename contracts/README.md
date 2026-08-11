@@ -7,7 +7,7 @@
 | A — Hedge CDP | `flexloans.*` | Liquity-inspired CDP (HXUSD via external token issuer) |
 | B — EASY Half-Loan | `easyloan.*` | EASY 50/50 Alcor + reflections |
 
-See **`../project directive.md`**.
+See **`../project directive.md`**. Tests: **`../tests/`** only (`npm test`).
 
 ## Build
 

@@ -26,6 +26,9 @@ contracts/**/*.abi
 *.wasm
 *.abi
 
+# Style reference C++ sources (local only)
+**/xpr-cpp-for-style/*.cpp
+
 
 
 # Editor directories and files
