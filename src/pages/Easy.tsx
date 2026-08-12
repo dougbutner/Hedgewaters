@@ -10,17 +10,13 @@ export default function Easy() {
   const { loading, error, config, vault, markets, myLoans, reload } = useEasyData(actor);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="page-title">EASY half-loan</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Product B — not Liquity. 50/50 Alcor sell + stacked EASY with reflections.{" "}
-          <Link to="/docs/easyloan" className="text-primary hover:underline">
-            Docs
-          </Link>
-        </p>
-      </div>
-
+    <div className="space-y-4">
+      <p className="text-xs text-muted-foreground">
+        Product B — not a CDP.{" "}
+        <Link to="/docs/easyloan" className="text-primary hover:underline">
+          Docs
+        </Link>
+      </p>
       {loading ? (
         <StatSkeleton className="h-64" />
       ) : error ? (

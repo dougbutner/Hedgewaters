@@ -10,7 +10,7 @@ export function EasyloanDoc() {
         <code>reflection_pool</code> (never <code>get_balance</code>).
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Memos</h3>
+      <h3 className="text-base font-semibold text-foreground">Memos</h3>
       <ul className="list-disc space-y-2 pl-5">
         <li>
           <code className="text-foreground">loan#&lt;poolId&gt;</code> — EASY in → open loan + Alcor sell
@@ -21,20 +21,20 @@ export function EasyloanDoc() {
         <li>Untagged inbound EASY → tagged as reflection (not principal)</li>
       </ul>
 
-      <h3 className="font-display text-2xl text-foreground">Actions</h3>
+      <h3 className="text-base font-semibold text-foreground">Actions</h3>
       <p>
         <code>harvest</code> (swap reflection EASY → out-token credits), <code>applycredit</code>,{" "}
         <code>withdraw</code>, plus admin <code>setconfig</code> / <code>addmarket</code> / <code>pause</code>.
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">2% pool cap</h3>
+      <h3 className="text-base font-semibold text-foreground">2% pool cap</h3>
       <pre className="overflow-x-auto rounded-lg bg-secondary p-4 font-mono text-xs text-foreground">
         {`easy_reserve = pool tokenA or tokenB where symbol == EASY
 max_sell     = easy_reserve * max_pool_bps / 10000   // default 200
 require sell_amount <= max_sell`}
       </pre>
 
-      <h3 className="font-display text-2xl text-foreground">Alcor swap memo</h3>
+      <h3 className="text-base font-semibold text-foreground">Alcor swap memo</h3>
       <p>
         <code>swapexactin#&lt;poolId&gt;#&lt;recipient&gt;#&lt;minQuantity SYM@contract&gt;#0</code>
       </p>

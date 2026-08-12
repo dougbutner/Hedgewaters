@@ -27,17 +27,13 @@ export default function Flash() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="page-title">Same-tx flash loans on XPR</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Product C — borrow from protocol reserves in one transaction. Repay principal + fee inside the same
-          tx or everything reverts.{" "}
-          <Link to="/docs/flashloan" className="text-primary hover:underline">
-            Full reference
-          </Link>
-        </p>
-      </div>
+    <div className="space-y-4">
+      <p className="text-xs text-muted-foreground">
+        Product C — same-tx flash.{" "}
+        <Link to="/docs/flashloan" className="text-primary hover:underline">
+          Full reference
+        </Link>
+      </p>
       <FlashOverview config={config} routes={routes} />
     </div>
   );

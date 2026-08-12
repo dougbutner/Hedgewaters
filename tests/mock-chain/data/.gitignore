@@ -1,0 +1,5 @@
+# Mutable local DB — restore from seed-snapshot.sqlite instead of committing this.
+tests/mock-chain/data/chain.sqlite
+tests/mock-chain/data/*.sqlite-journal
+tests/mock-chain/data/*.sqlite-wal
+tests/mock-chain/data/*.sqlite-shm

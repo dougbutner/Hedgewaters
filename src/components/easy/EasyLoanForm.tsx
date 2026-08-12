@@ -85,8 +85,8 @@ export function EasyLoanForm({
         {formatPctBps(config?.max_pool_bps ?? 200)} of pool EASY reserve.
       </div>
 
-      <div className="card p-5">
-        <h2 className="font-display text-2xl">Open half-loan</h2>
+      <div className="panel p-5">
+        <h2 className="text-sm font-semibold">Open half-loan</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Transfer memo <code className="text-primary">loan#&lt;poolId&gt;</code>
         </p>
@@ -124,8 +124,8 @@ export function EasyLoanForm({
         </button>
       </div>
 
-      <div className="card p-5">
-        <h2 className="font-display text-2xl">Your loans</h2>
+      <div className="panel p-5">
+        <h2 className="text-sm font-semibold">Your loans</h2>
         {!loans.length ? (
           <p className="mt-2 text-sm text-muted-foreground">No open easyloans for this account.</p>
         ) : (
@@ -197,8 +197,8 @@ export function EasyLoanForm({
         )}
       </div>
 
-      <div className="card p-5">
-        <h2 className="font-display text-2xl">Harvest reflections</h2>
+      <div className="panel p-5">
+        <h2 className="text-sm font-semibold">Harvest reflections</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Swaps reflection EASY on Alcor into out-token credits. Vault reflection pool:{" "}
           {vault?.reflection_pool ?? "—"}

@@ -58,7 +58,7 @@ export function OverviewDoc() {
         </table>
       </div>
 
-      <h3 className="font-display text-2xl text-foreground">Shared safety rules</h3>
+      <h3 className="text-base font-semibold text-foreground">Shared safety rules</h3>
       <ul className="list-disc space-y-2 pl-5">
         <li>Never <code>get_balance</code> → overwrite accounting (Vaults.sx class of bug).</li>
         <li>Validate → write tables → transfer/mint.</li>
@@ -66,7 +66,7 @@ export function OverviewDoc() {
         <li>Fixed-point math only. <code>check()</code> prefixes: <code>flexloans:</code> / <code>easyloan:</code> / <code>flashloan:</code>.</li>
       </ul>
 
-      <h3 className="font-display text-2xl text-foreground">Stack</h3>
+      <h3 className="text-base font-semibold text-foreground">Stack</h3>
       <p>
         Contracts: eosio-cpp. App: Vite + React + Tailwind. Wallets: WebAuth (<code>@proton/web-sdk</code>) and
         Anchor (WharfKit). Tests live under <code>tests/</code> only.

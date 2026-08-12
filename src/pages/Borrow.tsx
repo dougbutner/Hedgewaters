@@ -1,84 +1,92 @@
-import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { BorrowForm } from "@/components/borrow/BorrowForm";
-import { PositionPanel } from "@/components/borrow/PositionPanel";
-import { RiskHints } from "@/components/shared/RiskHints";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { StatSkeleton } from "@/components/ui/StatSkeleton";
+import { BorrowWorkspace } from "@/components/borrow/BorrowWorkspace";
+import { ProtocolStats } from "@/components/borrow/ProtocolStats";
+import { UserPosition } from "@/components/borrow/UserPosition";
+import { StabilityPoolSection } from "@/components/earn/StabilityPoolSection";
+import { MarketTable } from "@/components/markets/MarketTable";
+import { ConnectionError, CompactEmpty } from "@/components/ui/ConnectionError";
 import { useFlexData } from "@/hooks/useFlexData";
 import { useWallet } from "@/hooks/WalletProvider";
+import { symbolCode } from "@/lib/chain/asset";
 
 export default function Borrow() {
   const [params] = useSearchParams();
   const initialMarket = params.get("market") || undefined;
   const { actor, isLoggedIn, transact } = useWallet();
-  const { loading, error, config, markets, myPositions, mySurplus, reload } = useFlexData(actor);
-  const [tab, setTab] = useState<"open" | "manage">(myPositions.length ? "manage" : "open");
+  const {
+    loading,
+    error,
+    config,
+    markets,
+    pools,
+    myPositions,
+    mySp,
+    reload,
+  } = useFlexData(actor);
 
-  const showManage = useMemo(() => tab === "manage" && myPositions.length > 0, [tab, myPositions.length]);
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="page-title">Borrow HXUSD</h1>
-        <p className="mt-2 text-muted-foreground">Open a CDP or manage an existing position.</p>
-      </div>
-
-      <div className="flex gap-2">
-        <button
-          type="button"
-          className={`btn btn-sm ${!showManage ? "btn-primary" : "btn-outline"}`}
-          onClick={() => setTab("open")}
-        >
-          Open
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${showManage ? "btn-primary" : "btn-outline"}`}
-          onClick={() => setTab("manage")}
-          disabled={!myPositions.length}
-        >
-          Manage {myPositions.length ? `(${myPositions.length})` : ""}
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <StatSkeleton className="h-64" />
-          <StatSkeleton className="h-64" />
+    <div className="stagger space-y-5">
+      <div className="flex justify-end">
+        <div className="w-full lg:max-w-xl">
+          <ProtocolStats config={config} markets={markets} pools={pools} loading={loading} />
         </div>
-      ) : error ? (
-        <EmptyState title="Could not load flexloans">{error}</EmptyState>
-      ) : !markets.length ? (
-        <EmptyState title="No collateral markets">Deploy flexloans and call addmarket first.</EmptyState>
+      </div>
+
+      {/* Main workspace */}
+      {error ? (
+        <ConnectionError error={error} onRetry={() => void reload()} />
+      ) : loading ? (
+        <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
+          <div className="panel h-80 animate-pulse bg-surface" />
+          <div className="panel h-80 animate-pulse bg-surface" />
+        </div>
+      ) : markets.length ? (
+        <BorrowWorkspace
+          markets={markets}
+          config={config}
+          actor={actor}
+          isLoggedIn={isLoggedIn}
+          transact={transact}
+          onDone={() => void reload()}
+          initialMarketId={initialMarket}
+        />
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
-          <div>
-            {showManage ? (
-              <PositionPanel
-                positions={myPositions}
-                markets={markets}
-                config={config}
-                surpluses={mySurplus}
-                actor={actor}
-                transact={transact}
-                onDone={() => void reload()}
-              />
-            ) : (
-              <BorrowForm
-                markets={markets}
-                config={config}
-                actor={actor}
-                isLoggedIn={isLoggedIn}
-                transact={transact}
-                onDone={() => void reload()}
-                initialMarketId={initialMarket}
-              />
-            )}
-          </div>
-          <RiskHints />
-        </div>
+        <CompactEmpty title="No collateral markets yet">
+          Markets will appear here once flexloans is configured with addmarket.
+        </CompactEmpty>
       )}
+
+      {/* Your positions */}
+      {myPositions.length > 0 && (
+        <UserPosition positions={myPositions} markets={markets} config={config} />
+      )}
+
+      {/* Markets */}
+      <section>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h2 className="section-title">{debtSym} Markets</h2>
+        </div>
+        {error ? (
+          <ConnectionError error={error} onRetry={() => void reload()} />
+        ) : loading ? (
+          <div className="panel h-32 animate-pulse bg-surface" />
+        ) : markets.length ? (
+          <MarketTable markets={markets} pools={pools} config={config} />
+        ) : (
+          <CompactEmpty title="No markets">Awaiting on-chain market configuration.</CompactEmpty>
+        )}
+      </section>
+
+      {/* Stability pool */}
+      <StabilityPoolSection
+        markets={markets}
+        pools={pools}
+        deposits={mySp}
+        config={config}
+        compact={false}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 # Hedgewaters
 
-Vite + React + TypeScript app for **Hedgewaters** on **XPR Network**: Hedge CDP (`flexloans`), EASY half-loan (`easyloan`), and same-tx flash (`flashloan`). Liquity.app-inspired chrome — cool dark navy, blue accents, **Bebas Neue** headings, **Open Sans** body.
+Vite + React + TypeScript app for **Hedgewaters** on **XPR Network**: Hedge CDP (`flexloans`), EASY half-loan (`easyloan`), and same-tx flash (`flashloan`). Institutional dark DeFi UI — IBM Plex Sans/Mono, dense borrow workspace, Markets / Stability Pool / Positions.
 
 Wallets: **WebAuth** + **Anchor**, multi-account, one active signer via `useProton` / `useWallet`.
 
@@ -23,7 +23,7 @@ Wallets: **WebAuth** + **Anchor**, multi-account, one active signer via `useProt
 |--------|--------|
 | Build | Vite 5 |
 | UI | React 18 + Tailwind |
-| Fonts | Bebas Neue (headings), Open Sans (body) |
+| Fonts | IBM Plex Sans (UI), IBM Plex Mono (numbers) |
 | Wallets | `@proton/web-sdk`, `@proton/link`, WharfKit session + Anchor plugin |
 | Routing | `react-router-dom` |
 | Tests | Vitest under `tests/` only |

@@ -9,14 +9,13 @@ export default function DocPage() {
   const Body = doc.Component;
 
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
+    <div className="space-y-3">
+      <p className="text-xs text-muted-foreground">
         <Link to="/docs" className="hover:text-primary">
           Docs
         </Link>{" "}
-        / {doc.title}
+        / <span className="text-foreground">{doc.title}</span>
       </p>
-      <h1 className="page-title">{doc.title}</h1>
       <Body />
     </div>
   );

@@ -46,3 +46,26 @@ export async function getSingleton<T>(code: string, table: string): Promise<T | 
   const rows = await getTableRows<T>({ code, table, scope: code, limit: 1 });
   return rows[0] ?? null;
 }
+
+export async function getCurrencyBalance(
+  code: string,
+  account: string,
+  symbol?: string
+): Promise<string | null> {
+  let lastErr: unknown;
+  for (const ep of CHAIN_ENDPOINTS) {
+    try {
+      const res = await fetch(`${ep.replace(/\/$/, "")}/v1/chain/get_currency_balance`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, account, symbol: symbol || undefined }),
+      });
+      if (!res.ok) throw new Error(`RPC ${res.status}`);
+      const data = (await res.json()) as string[];
+      return data[0] ?? null;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error("RPC failed");
+}

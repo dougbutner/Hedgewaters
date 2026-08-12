@@ -19,17 +19,17 @@ export function FlashOverview({
           { n: "2", t: "Lend + callback", d: "Snapshot balance + fee, send principal, then callback the receiver." },
           { n: "3", t: "Repay or revert", d: "checkbalance requires END ≥ SNAPSHOT + FEE or the whole tx fails." },
         ].map((s) => (
-          <div key={s.n} className="card p-5">
+          <div key={s.n} className="panel p-4">
             <div className="text-xs text-primary">Step {s.n}</div>
-            <h2 className="mt-1 font-display text-2xl">{s.t}</h2>
+            <h2 className="mt-1 text-base font-semibold">{s.t}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
           </div>
         ))}
       </div>
 
-      <div className="card overflow-x-auto p-0">
+      <div className="panel overflow-x-auto p-0">
         <div className="px-5 pt-5">
-          <h2 className="font-display text-2xl">Modes</h2>
+          <h2 className="text-sm font-semibold">Modes</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Default action is <code className="text-primary">flash</code> — CDT cannot name an action like the
             contract class.
@@ -64,9 +64,9 @@ export function FlashOverview({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="card p-5">
-          <h2 className="font-display text-2xl">Fees</h2>
-          <p className="mt-2 text-3xl font-display tracking-wide text-primary">
+        <div className="panel p-4">
+          <h2 className="text-sm font-semibold">Fees</h2>
+          <p className="mt-2 text-3xl font-semibold tracking-wide text-primary">
             {formatPctBps(fee)} <span className="text-base text-muted-foreground">default</span>
           </p>
           <p className="mt-3 text-sm text-muted-foreground">
@@ -74,8 +74,8 @@ export function FlashOverview({
           </p>
           {config?.paused && <p className="mt-2 text-sm text-destructive">Flash contract is paused.</p>}
         </div>
-        <div className="card p-5">
-          <h2 className="font-display text-2xl">Invariant</h2>
+        <div className="panel p-4">
+          <h2 className="text-sm font-semibold">Invariant</h2>
           <p className="mt-2 font-mono text-sm text-primary">END_BALANCE ≥ SNAPSHOT + FEE</p>
           <p className="mt-3 text-sm text-muted-foreground">
             Opt the flash account out of Flex transfer tax before lending those tokens, or repayments
@@ -85,8 +85,8 @@ export function FlashOverview({
       </div>
 
       {routes.length > 0 && (
-        <div className="card overflow-x-auto p-0">
-          <h2 className="px-5 pt-5 font-display text-2xl">Conversion routes</h2>
+        <div className="panel overflow-x-auto p-0">
+          <h2 className="px-5 pt-5 text-base font-semibold">Conversion routes</h2>
           <table className="mt-4 w-full min-w-[640px] text-left text-sm">
             <thead>
               <tr className="border-y border-border text-muted-foreground">

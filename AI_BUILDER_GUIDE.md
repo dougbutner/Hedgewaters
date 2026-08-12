@@ -15,7 +15,7 @@ This document is for **human developers** and **AI coding agents** working in th
 
 When extending the app, match what is already here unless the product owner explicitly changes direction:
 
-- **Theme:** Dark cool navy + soft blue (`#0B0D11` / `#6D8AED`). Headings **Bebas Neue**, body **Open Sans**.
+- **Theme:** Dark near-black institutional DeFi (`#0B0D10` surfaces). Accent blue for CTA/selected only. Headings use IBM Plex Sans weight hierarchy — no giant display fonts.
 - **Stack:** React, Vite, Tailwind, small primitives in `src/components/ui/`.
 - **Wallets:** Respect multi-account flows (`ConnectButton`, wallet manifest, WebAuth + Anchor). Do not simplify to a single-account-only model without explicit approval.
 - **Copy:** Prefer clear DeFi language; keep **EASY** / **Flextokens** / XPR positioning consistent with in-app Docs and `flex-tokens.md` where relevant.

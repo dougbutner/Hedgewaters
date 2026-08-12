@@ -9,7 +9,7 @@ export function FlexloansDoc() {
         HXUSD is an external <code>eosio.token</code>; flexloans is issuer (<code>issue</code> / <code>retire</code>).
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Transfer memos → flexloans</h3>
+      <h3 className="text-base font-semibold text-foreground">Transfer memos → flexloans</h3>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[520px] text-left">
           <thead>
@@ -37,20 +37,20 @@ export function FlexloansDoc() {
         </table>
       </div>
 
-      <h3 className="font-display text-2xl text-foreground">Actions</h3>
+      <h3 className="text-base font-semibold text-foreground">Actions</h3>
       <p>
         <code>borrow</code>, <code>withdrawcoll</code>, <code>setrate</code>, <code>closepos</code>,{" "}
         <code>withdrawsp</code>, <code>claimsp</code>, <code>liquidate</code>, <code>claimsurplus</code>, plus
         admin/oracle (<code>setconfig</code>, <code>addmarket</code>, <code>setprice</code>, <code>pause</code>).
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Rate buckets</h3>
+      <h3 className="text-base font-semibold text-foreground">Rate buckets</h3>
       <p>
         50 / 100 / 200 / 400 / 600 / 1000 bps. Interest accrues on touch; 100% of interest goes to the SP.
         Redemptions hit the lowest rate first (then oldest seq). Upfront borrow fee applies.
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Risks</h3>
+      <h3 className="text-base font-semibold text-foreground">Risks</h3>
       <ul className="list-disc space-y-2 pl-5">
         <li>Liquidation when ICR &lt; MCR (no Recovery Mode in v1).</li>
         <li>CCR gates new borrowing when the market is too leveraged.</li>

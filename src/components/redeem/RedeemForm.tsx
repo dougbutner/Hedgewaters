@@ -84,7 +84,7 @@ export function RedeemForm({
 
   return (
     <div className="space-y-4">
-      <div className="card p-5">
+      <div className="panel p-5">
         <label className="text-sm text-muted-foreground">Market</label>
         <select className="input mt-2" value={String(market?.id ?? "")} onChange={(e) => setMarketId(e.target.value)}>
           {markets.map((m) => (

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export function RiskHints() {
   return (
-    <div className="card p-5">
-      <h2 className="font-display text-2xl tracking-wide">Rates &amp; redemptions</h2>
+    <div className="panel p-5">
+      <h2 className="text-sm font-semibold">Rates &amp; redemptions</h2>
       <p className="mt-2 text-sm text-muted-foreground">
         Redemptions help keep HXUSD near $1. If you are redeemed, collateral and debt fall together —
         no net loss, but your rate bucket determines who is hit first.

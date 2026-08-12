@@ -1,12 +1,14 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { appendWharfDialogElement } from "@/services/wharfSessionKit";
 import { WalletProvider } from "@/hooks/WalletProvider";
 import { AppShell } from "@/layouts/AppShell";
 import { DocsLayout } from "@/layouts/DocsLayout";
-import Dashboard from "./pages/Dashboard.tsx";
 import Borrow from "./pages/Borrow.tsx";
+import Markets from "./pages/Markets.tsx";
 import Earn from "./pages/Earn.tsx";
+import Positions from "./pages/Positions.tsx";
+import Trade from "./pages/Trade.tsx";
 import Redeem from "./pages/Redeem.tsx";
 import Easy from "./pages/Easy.tsx";
 import Flash from "./pages/Flash.tsx";
@@ -24,9 +26,12 @@ export default function App() {
       <WalletProvider>
         <Routes>
           <Route element={<AppShell />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/borrow" element={<Borrow />} />
+            <Route path="/" element={<Borrow />} />
+            <Route path="/borrow" element={<Navigate to="/" replace />} />
+            <Route path="/markets" element={<Markets />} />
             <Route path="/earn" element={<Earn />} />
+            <Route path="/positions" element={<Positions />} />
+            <Route path="/trade" element={<Trade />} />
             <Route path="/redeem" element={<Redeem />} />
             <Route path="/easy" element={<Easy />} />
             <Route path="/flash" element={<Flash />} />

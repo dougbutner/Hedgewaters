@@ -8,9 +8,9 @@ export function EmptyState({
   children?: ReactNode;
 }) {
   return (
-    <div className="card px-6 py-10 text-center">
-      <h2 className="font-display text-2xl tracking-wide">{title}</h2>
-      {children && <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{children}</p>}
+    <div className="panel px-5 py-6 text-center">
+      <h2 className="text-sm font-semibold">{title}</h2>
+      {children && <p className="mx-auto mt-1.5 max-w-md text-xs text-muted-foreground">{children}</p>}
     </div>
   );
 }

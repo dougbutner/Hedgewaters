@@ -43,7 +43,10 @@ export function StabilityPoolCard({
   const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
   const debtPrec = parseAsset(config?.min_debt)?.precision ?? parseAsset(pool?.hxusd)?.precision ?? 4;
 
-  const run = async (actions: Array<{ account: string; name: string; data: Record<string, unknown> }>, ok: string) => {
+  const run = async (
+    actions: Array<{ account: string; name: string; data: Record<string, unknown> }>,
+    ok: string
+  ) => {
     setErr(null);
     setMsg(null);
     if (!actor) {
@@ -63,35 +66,35 @@ export function StabilityPoolCard({
   };
 
   return (
-    <div className="card p-5">
-      <div className="flex items-start justify-between gap-3">
+    <div className="panel">
+      <div className="panel-header flex items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl tracking-wide">{collSym} Stability Pool</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Deposit {debtSym}. Earn liquidation collateral + 100% of interest.
+          <h2 className="text-sm font-semibold">{collSym} Stability Pool</h2>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">
+            Earn liquidation coll + interest in {debtSym}
           </p>
         </div>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 text-xs font-semibold text-primary">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary text-[10px] font-bold">
           {collSym.slice(0, 2)}
         </span>
       </div>
 
-      <dl className="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-        <div>
-          <dt className="text-muted-foreground">TVL</dt>
-          <dd>{pool?.hxusd ?? `0 ${debtSym}`}</dd>
-        </div>
-        <div>
-          <dt className="text-muted-foreground">Coll gains</dt>
-          <dd>{pool?.coll_balance ?? `0 ${collSym}`}</dd>
-        </div>
-        <div>
-          <dt className="text-muted-foreground">Your deposit</dt>
-          <dd>{deposit?.hxusd ?? `0 ${debtSym}`}</dd>
-        </div>
-      </dl>
+      <div className="panel-body space-y-3">
+        <dl className="grid grid-cols-3 gap-2 text-xs">
+          <div>
+            <dt className="text-muted-foreground">TVL</dt>
+            <dd className="mt-0.5 font-mono tabular-nums">{pool?.hxusd ?? `0 ${debtSym}`}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">Coll gains</dt>
+            <dd className="mt-0.5 font-mono tabular-nums">{pool?.coll_balance ?? `0 ${collSym}`}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">Yours</dt>
+            <dd className="mt-0.5 font-mono tabular-nums">{deposit?.hxusd ?? `0 ${debtSym}`}</dd>
+          </div>
+        </dl>
 
-      <div className="mt-4 space-y-2">
         <input
           className="input"
           placeholder={`Deposit ${debtSym}`}
@@ -113,19 +116,17 @@ export function StabilityPoolCard({
         >
           {!isLoggedIn ? "Connect to deposit" : "Deposit"}
         </button>
-      </div>
 
-      <div className="mt-4 space-y-2">
-        <input
-          className="input"
-          placeholder={`Withdraw ${debtSym}`}
-          value={wd}
-          onChange={(e) => setWd(e.target.value.replace(/[^\d.]/g, ""))}
-        />
         <div className="flex gap-2">
+          <input
+            className="input flex-1"
+            placeholder={`Withdraw ${debtSym}`}
+            value={wd}
+            onChange={(e) => setWd(e.target.value.replace(/[^\d.]/g, ""))}
+          />
           <button
             type="button"
-            className="btn btn-outline flex-1"
+            className="btn btn-outline"
             disabled={!isLoggedIn || busy}
             onClick={() => {
               const q = parseDecimalToAsset(wd, debtPrec, debtSym);
@@ -140,7 +141,7 @@ export function StabilityPoolCard({
           </button>
           <button
             type="button"
-            className="btn btn-outline flex-1"
+            className="btn btn-outline"
             disabled={!isLoggedIn || busy}
             onClick={() => {
               if (!actor) return;
@@ -153,15 +154,10 @@ export function StabilityPoolCard({
             Claim
           </button>
         </div>
-      </div>
 
-      {deposit?.pending_coll && (
-        <p className="mt-3 text-xs text-muted-foreground">
-          Pending: {deposit.pending_coll} · {deposit.pending_yield}
-        </p>
-      )}
-      {err && <p className="mt-3 text-sm text-destructive">{err}</p>}
-      {msg && <p className="mt-3 text-sm text-success">{msg}</p>}
+        {err && <p className="text-xs text-destructive">{err}</p>}
+        {msg && <p className="text-xs text-success">{msg}</p>}
+      </div>
     </div>
   );
 }

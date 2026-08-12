@@ -111,7 +111,7 @@ export function BorrowForm({
 
   return (
     <div className="space-y-4">
-      <div className="card p-5">
+      <div className="panel p-5">
         <label className="text-sm text-muted-foreground">Collateral</label>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <select
@@ -143,7 +143,7 @@ export function BorrowForm({
         subline={`Min debt ${config?.min_debt ?? "—"} · borrow fee ${formatPctBps(config?.borrow_fee_bps ?? 0)}`}
       />
 
-      <div className="card p-5">
+      <div className="panel p-5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Interest rate</span>
           <span className="text-sm">{formatPctBps(rate)}</span>

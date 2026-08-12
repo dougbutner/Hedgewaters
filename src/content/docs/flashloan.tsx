@@ -9,7 +9,7 @@ export function FlashloanDoc() {
         transaction reverts.
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Flow</h3>
+      <h3 className="text-base font-semibold text-foreground">Flow</h3>
       <ol className="list-decimal space-y-2 pl-5">
         <li>Optional DEX conversion of other reserves → loan token</li>
         <li>Snapshot loan-token balance + fee</li>
@@ -22,7 +22,7 @@ export function FlashloanDoc() {
         </li>
       </ol>
 
-      <h3 className="font-display text-2xl text-foreground">Modes</h3>
+      <h3 className="text-base font-semibold text-foreground">Modes</h3>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[480px] text-left">
           <thead>
@@ -54,7 +54,7 @@ export function FlashloanDoc() {
         CDT forbids an action named like the contract class.
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Fees</h3>
+      <h3 className="text-base font-semibold text-foreground">Fees</h3>
       <ul className="list-disc space-y-2 pl-5">
         <li>Default 3 bps (0.03%)</li>
         <li>0 bps for EASY@mon3y, WON@w3won, MEME@m3m3, GRAMS@gold.mon3y</li>
@@ -63,7 +63,7 @@ export function FlashloanDoc() {
         </li>
       </ul>
 
-      <h3 className="font-display text-2xl text-foreground">Invariant</h3>
+      <h3 className="text-base font-semibold text-foreground">Invariant</h3>
       <p className="font-mono text-foreground">END_BALANCE ≥ SNAPSHOT + FEE</p>
       <p>
         Deploy: opt the flash account out of Flex transfer tax (noflexzone / optoutoftax) or repayments
@@ -71,7 +71,7 @@ export function FlashloanDoc() {
         singleton).
       </p>
 
-      <h3 className="font-display text-2xl text-foreground">Admin</h3>
+      <h3 className="text-base font-semibold text-foreground">Admin</h3>
       <p>
         <code>setconfig</code>, <code>pause</code>, <code>setroute</code> / <code>delroute</code>,{" "}
         <code>addzerofee</code> / <code>delzerofee</code>, <code>withdraw</code>.

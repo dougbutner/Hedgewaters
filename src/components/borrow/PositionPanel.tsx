@@ -87,7 +87,7 @@ export function PositionPanel({
 
   return (
     <div className="space-y-4">
-      <div className="card p-5">
+      <div className="panel p-5">
         <label className="text-sm text-muted-foreground">Your position</label>
         <select className="input mt-2" value={String(pos?.id ?? "")} onChange={(e) => setPosId(e.target.value)}>
           {positions.map((p) => (
@@ -178,7 +178,7 @@ export function PositionPanel({
         Repay
       </button>
 
-      <div className="card p-5">
+      <div className="panel p-5">
         <p className="text-sm text-muted-foreground">Change rate bucket</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {RATE_BUCKETS.map((b) => (
@@ -207,8 +207,8 @@ export function PositionPanel({
       </button>
 
       {surpluses.length > 0 && (
-        <div className="card p-5">
-          <h3 className="font-display text-xl">Surplus</h3>
+        <div className="panel p-5">
+          <h3 className="text-sm font-semibold">Surplus</h3>
           <ul className="mt-2 space-y-2 text-sm">
             {surpluses.map((s) => (
               <li key={String(s.position_id)} className="flex items-center justify-between">

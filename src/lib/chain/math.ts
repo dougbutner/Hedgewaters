@@ -30,6 +30,72 @@ export function formatPctBps(bps: number | bigint | null | undefined): string {
   return `${n.toFixed(n >= 10 ? 1 : 2)}%`;
 }
 
+export function maxBorrowAmount(
+  collAmt: bigint,
+  priceUsdE8: bigint,
+  collPrecision: number,
+  debtPrecision: number,
+  mcrBps: number
+): bigint {
+  if (collAmt <= 0n || priceUsdE8 <= 0n || mcrBps <= 0) return 0n;
+  const cs = 10n ** BigInt(collPrecision);
+  const ds = 10n ** BigInt(debtPrecision);
+  const collUsdE8 = (collAmt * priceUsdE8) / cs;
+  // max debt USD e8 at MCR: collUsd * BPS / mcr
+  const maxDebtUsdE8 = (collUsdE8 * BPS_DENOM) / BigInt(mcrBps);
+  return (maxDebtUsdE8 * ds) / 100_000_000n;
+}
+
+/** USD price (human) at which ICR equals mcr given coll & debt units. */
+export function liquidationPriceUsd(
+  collAmt: bigint,
+  debtAmt: bigint,
+  collPrecision: number,
+  debtPrecision: number,
+  mcrBps: number
+): number | null {
+  if (collAmt <= 0n || debtAmt <= 0n || mcrBps <= 0) return null;
+  const cs = 10n ** BigInt(collPrecision);
+  const ds = 10n ** BigInt(debtPrecision);
+  // price_e8 = mcr * debtUsdE8 * cs / (coll * BPS)
+  const debtUsdE8 = (debtAmt * 100_000_000n) / ds;
+  const priceE8 = (BigInt(mcrBps) * debtUsdE8 * cs) / (collAmt * BPS_DENOM);
+  return Number(priceE8) / 1e8;
+}
+
+export function healthFromIcr(icrBps: bigint | null, mcrBps: number): "SAFE" | "AT_RISK" | "LIQUIDATABLE" | "—" {
+  if (icrBps == null || mcrBps <= 0) return "—";
+  if (icrBps < BigInt(mcrBps)) return "LIQUIDATABLE";
+  if (icrBps < BigInt(Math.floor(mcrBps * 1.25))) return "AT_RISK";
+  return "SAFE";
+}
+
+export function borrowFeeAmount(amount: bigint, feeBps: number): bigint {
+  return (amount * BigInt(feeBps)) / BPS_DENOM;
+}
+
+export function rateBucketLabel(bps: number): string {
+  if (bps <= 50) return "Lowest rate";
+  if (bps <= 100) return "Low redemption risk";
+  if (bps <= 200) return "Balanced";
+  if (bps <= 400) return "Higher availability";
+  if (bps <= 600) return "Higher availability";
+  return "Highest rate";
+}
+
+export function formatCompact(amount: bigint, precision: number): string {
+  const n = Number(amount) / 10 ** precision;
+  if (!Number.isFinite(n)) return "—";
+  if (Math.abs(n) >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`;
+  if (Math.abs(n) >= 1_000) return `${(n / 1_000).toFixed(2)}K`;
+  return n.toLocaleString(undefined, { maximumFractionDigits: Math.min(precision, 4) });
+}
+
+export function formatUsd(n: number | null | undefined): string {
+  if (n == null || !Number.isFinite(n)) return "—";
+  return `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
 /** Coll out after redeem fee: HXUSD~$1 → coll = usd / price. */
 export function redeemCollEstimate(
   hxusdAmt: bigint,
