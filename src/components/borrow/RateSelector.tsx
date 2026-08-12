@@ -22,13 +22,8 @@ export function RateSelector({
               type="button"
               onClick={() => onChange(bps)}
               className={`glass-field px-2 py-2.5 text-left ${
-                selected ? "bg-primary/15 ring-0 !brightness-110" : ""
+                selected ? "border-primary/50 bg-primary/10" : ""
               }`}
-              style={
-                selected
-                  ? { filter: "drop-shadow(0 0 1px hsl(48 100% 50% / 0.75))" }
-                  : undefined
-              }
             >
               <div className={`font-mono text-sm font-semibold tabular-nums ${selected ? "text-primary" : "text-foreground"}`}>
                 {formatPctBps(bps)}

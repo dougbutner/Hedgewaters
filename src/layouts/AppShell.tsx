@@ -21,8 +21,8 @@ export function AppShell() {
           </main>
           <footer>
             <div className="water-rule" aria-hidden />
-            <div className="mx-auto flex max-w-app flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3 text-xs text-muted-foreground md:px-6 lg:px-8">
-              <p>Hedgewaters on XPR Network</p>
+            <div className="mx-auto flex max-w-app flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-xs text-muted-foreground md:px-6 lg:px-8">
+              <p className="tracking-wide">Hedgewaters · XPR Network</p>
               <div className="flex flex-wrap gap-x-4 gap-y-1 uppercase tracking-wider text-[10px] font-semibold">
                 <Link to="/markets" className="hover:text-foreground">
                   Markets

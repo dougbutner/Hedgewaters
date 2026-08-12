@@ -6,39 +6,38 @@
   :root {
     /* Flextokens: yellow + true black */
     --background: 0 0% 0%;
-    --foreground: 48 12% 96%;
-    --card: 0 0% 4%;
-    --card-foreground: 48 12% 96%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 48 12% 96%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 96%;
     --primary: 48 100% 50%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 48 8% 92%;
-    --muted: 0 0% 7%;
-    --muted-foreground: 0 0% 55%;
+    --secondary: 0 0% 7%;
+    --secondary-foreground: 0 0% 92%;
+    --muted: 0 0% 6%;
+    --muted-foreground: 0 0% 52%;
     --accent: 45 98% 48%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 65% 48%;
     --destructive-foreground: 0 0% 100%;
     --warning: 38 85% 48%;
     --warning-foreground: 0 0% 0%;
-    --border: 0 0% 14%;
-    --input: 0 0% 10%;
+    --border: 0 0% 12%;
+    --input: 0 0% 8%;
     --ring: 48 100% 50%;
-    --radius: 0.375rem;
+    --radius: 0.25rem;
     --success: 152 55% 40%;
     --success-foreground: 0 0% 100%;
-    --surface: 0 0% 3%;
-    --surface-2: 0 0% 6%;
-    --glass: 0 0% 9%;
-    --glass-border: 48 30% 72%;
-    --water: 198 55% 42%;
-    --font-sans: "IBM Plex Sans", "Open Sans", system-ui, sans-serif;
+    --surface: 0 0% 2%;
+    --surface-2: 0 0% 5%;
+    --glass: 0 0% 6%;
+    --glass-border: 0 0% 100%;
+    --water: 198 40% 38%;
+    --font-sans: "IBM Plex Sans", system-ui, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, monospace;
     --motion: 120ms;
     --motion-enter: 180ms;
-
   }
 
   * {
@@ -47,6 +46,33 @@
 
   html {
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #111 #000000;
+  }
+
+  /* Black-on-black scrollbars with light white outline */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #000000;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 2px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #141414;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: #000000;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -65,9 +91,10 @@
   body {
     @apply bg-background text-foreground font-sans text-sm antialiased;
     background-color: #000000;
+    /* Subtle shoreline grain — identity, not glow blobs */
     background-image:
-      radial-gradient(ellipse 80% 50% at 18% -8%, hsl(48 80% 40% / 0.14), transparent 55%),
-      radial-gradient(ellipse 55% 40% at 92% 8%, hsl(198 40% 28% / 0.12), transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 90% 55% at 50% -20%, hsl(48 60% 30% / 0.06), transparent 55%),
       linear-gradient(180deg, #000000, #000000);
     background-attachment: fixed;
   }
@@ -77,71 +104,27 @@
   input,
   select,
   textarea {
-    transition-property: color, background-color, border-color, border-width, box-shadow, opacity, transform, filter;
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
     transition-duration: var(--motion);
     transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 }
 
 @layer components {
-  .glass-surface {
-    backdrop-filter: blur(12px) saturate(1.15);
-    -webkit-backdrop-filter: blur(12px) saturate(1.15);
-    transition:
-      background-color var(--motion) cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow var(--motion) cubic-bezier(0.2, 0.8, 0.2, 1),
-      transform var(--motion) cubic-bezier(0.2, 0.8, 0.2, 1),
-      filter var(--motion) cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  /* Legacy alias — organic shapes replace straight bevel borders */
-  .glass-bevel {
-    @apply glass-surface;
-    border: none;
-  }
-
-  .hedge-shape {
-    border-radius: 0;
-  }
-
-  .water-edge {
-    border-radius: 0;
-  }
-
   .btn {
-    @apply glass-surface hedge-shape inline-flex h-10 items-center justify-center gap-2 px-5 pt-1 text-sm font-medium disabled:pointer-events-none disabled:opacity-45;
-    position: relative;
-    overflow: hidden;
-    border: none;
-    background-color: hsl(var(--glass) / 0.55);
+    @apply inline-flex h-9 items-center justify-center gap-2 rounded-sm px-3.5 text-sm font-medium disabled:pointer-events-none disabled:opacity-45;
+    border: 1px solid hsl(0 0% 100% / 0.08);
+    background-color: hsl(0 0% 6%);
     color: hsl(var(--foreground));
-    filter: drop-shadow(0 1px 0 hsl(var(--glass-border) / 0.2)) drop-shadow(0 0 0.8px hsl(var(--primary) / 0.25));
-  }
-
-  .btn::before {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    opacity: 0.28;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-    background-size: 120px 120px;
-  }
-
-  .btn > * {
-    position: relative;
-    z-index: 1;
   }
 
   .btn:hover:not(:disabled) {
-    background-color: hsl(var(--glass) / 0.75);
-    transform: translateY(-1px);
-    filter: drop-shadow(0 2px 0 #000000) drop-shadow(0 0 0.5px hsl(var(--glass-border) / 0.35));
+    background-color: hsl(0 0% 10%);
+    border-color: hsl(0 0% 100% / 0.14);
   }
 
   .btn:active:not(:disabled) {
-    transform: translateY(0);
+    transform: translateY(1px);
     transition-duration: 70ms;
   }
 
@@ -149,91 +132,64 @@
     @apply btn;
     color: #000000;
     background-color: hsl(var(--primary));
-    filter: drop-shadow(0 1px 0 hsl(48 100% 30% / 0.45));
+    border-color: hsl(48 100% 40% / 0.6);
   }
 
   .btn-primary:hover:not(:disabled) {
     background-color: hsl(var(--accent));
     color: #000000;
-    filter: drop-shadow(0 2px 0 #000000) drop-shadow(0 0 8px hsl(48 100% 50% / 0.25));
+    border-color: hsl(48 100% 55% / 0.7);
   }
 
   .btn-outline {
     @apply btn text-foreground;
-    background-color: hsl(var(--glass) / 0.35);
+    background-color: transparent;
   }
 
   .btn-ghost {
     @apply btn text-muted-foreground;
     background-color: transparent;
-    filter: none;
-    backdrop-filter: none;
+    border-color: transparent;
   }
 
   .btn-ghost:hover:not(:disabled) {
     @apply text-foreground;
-    background-color: hsl(var(--glass) / 0.5);
-    filter: drop-shadow(0 1px 0 hsl(var(--glass-border) / 0.2));
+    background-color: hsl(0 0% 8%);
+    border-color: hsl(0 0% 100% / 0.06);
   }
 
   .btn-sm {
-    @apply h-9 px-4 text-xs;
+    @apply h-8 px-2.5 text-xs;
   }
 
   .btn-lg {
-    @apply h-11 px-6 text-sm font-semibold;
+    @apply h-10 px-4 text-sm font-semibold;
   }
 
   .input {
-    @apply glass-surface water-edge flex h-11 w-full bg-[hsl(0_0%_0%/0.65)] px-3.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus-visible:outline-none disabled:opacity-50;
-    border: none;
-    filter: drop-shadow(0 0 0.6px hsl(var(--water) / 0.55));
+    @apply flex h-10 w-full rounded-sm bg-[#000000] px-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus-visible:outline-none disabled:opacity-50;
+    border: 1px solid hsl(0 0% 100% / 0.1);
   }
 
-  .input:hover,
+  .input:hover {
+    border-color: hsl(0 0% 100% / 0.16);
+  }
+
   .input:focus-visible {
-    filter: drop-shadow(0 0 1px hsl(var(--primary) / 0.55)) drop-shadow(0 0 0.6px hsl(var(--water) / 0.7));
+    border-color: hsl(var(--primary) / 0.55);
   }
 
   .panel {
     position: relative;
     overflow: hidden;
-    @apply glass-surface water-edge;
-    border: none;
+    border-radius: var(--radius);
+    border: 1px solid hsl(0 0% 100% / 0.08);
     color: hsl(var(--card-foreground));
-    background-color: hsl(var(--glass) / 0.72);
-    /* Keep panels near-black; yellow/water only on the edge */
-    background-image: linear-gradient(180deg, hsl(0 0% 5% / 0.9), hsl(0 0% 2% / 0.95));
-    filter: drop-shadow(0 0 1.2px hsl(var(--water) / 0.75)) drop-shadow(0 0 0.6px hsl(var(--primary) / 0.35));
-  }
-
-  .panel::before {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    opacity: 0.32;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-  }
-
-  /* Soft water-line highlight along the edge */
-  .panel::after {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    opacity: 0.35;
-    background:
-      radial-gradient(ellipse 80% 40% at 50% 0%, hsl(var(--water) / 0.25), transparent 55%),
-      radial-gradient(ellipse 60% 30% at 100% 50%, hsl(198 50% 50% / 0.12), transparent 50%),
-      radial-gradient(ellipse 80% 40% at 50% 100%, hsl(var(--water) / 0.18), transparent 55%);
+    background-color: #000000;
   }
 
   .panel:hover {
-    background-color: hsl(var(--glass) / 0.62);
-    filter: drop-shadow(0 0 1px hsl(var(--water) / 0.65)) drop-shadow(2px 3px 0 #000000);
+    border-color: hsl(0 0% 100% / 0.12);
   }
 
   .card {
@@ -243,16 +199,25 @@
   .glass-field {
     position: relative;
     overflow: hidden;
-    @apply glass-surface water-edge;
-    border: none;
-    background-color: hsl(0 0% 0% / 0.55);
-    filter: drop-shadow(0 0 0.55px hsl(var(--water) / 0.4));
+    border-radius: var(--radius);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+    background-color: #000000;
   }
 
   .glass-field:hover,
   .glass-field:focus-within {
-    background-color: hsl(0 0% 4% / 0.7);
-    filter: drop-shadow(0 0 0.9px hsl(var(--primary) / 0.35)) drop-shadow(0 0 0.55px hsl(var(--water) / 0.55));
+    border-color: hsl(0 0% 100% / 0.14);
+  }
+
+  /* Legacy aliases — no more bevel / global organic clip */
+  .glass-bevel,
+  .glass-surface {
+    border: none;
+  }
+
+  .hedge-shape,
+  .water-edge {
+    border-radius: var(--radius);
   }
 
   .panel-header {
@@ -287,39 +252,29 @@
     @apply border-t border-white/5;
   }
 
-  /* Irregular water-line separator (nav / footer) */
+  /* Soft coastline hairline — felt, not counted */
   .water-rule {
-    height: 4px;
+    height: 1px;
     width: 100%;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      hsl(var(--primary) / 0.35) 18%,
-      hsl(var(--water) / 0.4) 50%,
-      hsl(var(--primary) / 0.35) 82%,
+      hsl(0 0% 100% / 0.18) 20%,
+      hsl(var(--primary) / 0.28) 50%,
+      hsl(0 0% 100% / 0.18) 80%,
       transparent 100%
     );
-    /* Soft undulating rule — few lobes, not zigzag */
-    clip-path: polygon(
-      0% 70%,
-      8% 20%,
-      16% 75%,
-      25% 15%,
-      33% 70%,
-      42% 20%,
-      50% 75%,
-      58% 15%,
-      67% 70%,
-      75% 20%,
-      83% 75%,
-      92% 15%,
-      100% 70%,
-      100% 100%,
-      0% 100%
-    );
+    opacity: 0.9;
   }
 
-  /* Top nav: all-caps via CSS */
+  .wordmark {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: hsl(var(--primary));
+    line-height: 1;
+  }
+
   .nav-caps {
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -327,7 +282,6 @@
     font-weight: 600;
   }
 
-  /* Snappy page enter — content visible immediately, slight settle */
   .page-enter {
     animation: page-settle var(--motion-enter) cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
@@ -355,7 +309,6 @@
     }
   }
 
-  /* Full-bleed Alcor terminal shell */
   .terminal-shell {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 # Hedgewaters
 
-Vite + React + TypeScript app for **Hedgewaters** on **XPR Network**: Hedge CDP (`flexloans`), EASY half-loan (`easyloan`), and same-tx flash (`flashloan`). True-black UI with Flextokens yellow accents, hedge-shaped buttons, and water-edge panels — IBM Plex Sans/Mono, dense borrow workspace, Markets / Stability Pool / Positions.
+Vite + React + TypeScript app for **Hedgewaters** on **XPR Network**: Hedge CDP (`flexloans`), EASY half-loan (`easyloan`), and same-tx flash (`flashloan`). True-black UI with Flextokens yellow accents — IBM Plex Sans/Mono, borrow-first workspace, Markets / Stability Pool / Positions.
 
 Wallets: **WebAuth** + **Anchor**, multi-account, one active signer via `useProton` / `useWallet`.
 

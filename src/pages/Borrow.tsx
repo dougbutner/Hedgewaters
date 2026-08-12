@@ -27,14 +27,8 @@ export default function Borrow() {
   const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
 
   return (
-    <div className="stagger space-y-5">
-      <div className="flex justify-end">
-        <div className="w-full lg:max-w-xl">
-          <ProtocolStats config={config} markets={markets} pools={pools} loading={loading} />
-        </div>
-      </div>
-
-      {/* Main workspace */}
+    <div className="stagger space-y-8">
+      {/* First composition: borrow instrument */}
       {error ? (
         <ConnectionError error={error} onRetry={() => void reload()} />
       ) : loading ? (
@@ -58,16 +52,17 @@ export default function Borrow() {
         </CompactEmpty>
       )}
 
-      {/* Your positions */}
+      {/* Typographic strip — not a card */}
+      <div className="water-rule" aria-hidden />
+      <ProtocolStats config={config} markets={markets} pools={pools} loading={loading} />
+
       {myPositions.length > 0 && (
         <UserPosition positions={myPositions} markets={markets} config={config} />
       )}
 
-      {/* Markets */}
-      <section>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="section-title">{debtSym} Markets</h2>
-        </div>
+      <section className="space-y-3">
+        <div className="water-rule" aria-hidden />
+        <h2 className="section-title">{debtSym} Markets</h2>
         {error ? (
           <ConnectionError error={error} onRetry={() => void reload()} />
         ) : loading ? (
@@ -79,7 +74,6 @@ export default function Borrow() {
         )}
       </section>
 
-      {/* Stability pool */}
       <StabilityPoolSection
         markets={markets}
         pools={pools}

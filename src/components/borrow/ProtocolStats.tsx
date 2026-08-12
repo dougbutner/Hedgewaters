@@ -35,11 +35,10 @@ export function ProtocolStats({
 
   return (
     <div className="min-w-0">
-      <p className="stat-label mb-2">Protocol Overview</p>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-4 lg:gap-x-8">
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3 sm:gap-x-10">
         {items.map((item) => (
           <div key={item.label} className="min-w-0">
-            <p className="text-[11px] text-muted-foreground">{item.label}</p>
+            <p className="stat-label">{item.label}</p>
             <p className="stat-value mt-0.5 truncate">{item.value}</p>
             {item.label === "Markets" && avgRate > 0 && (
               <p className="sr-only">Avg MCR {formatPctBps(avgRate)}</p>

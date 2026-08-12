@@ -34,20 +34,19 @@ export function TopNav() {
   const otherMore = MORE.filter(({ to }) => !isRouteActive(pathname, to));
 
   return (
-    <header className="sticky top-0 z-40 bg-[#000000]/92 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 bg-[#000000]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-app items-stretch gap-4 px-4 md:gap-8 md:px-6 lg:gap-12 lg:px-8">
         <Link
           to="/"
-          className="flex shrink-0 flex-col justify-center py-3 leading-none"
+          className="flex shrink-0 flex-col justify-center py-3.5 leading-none"
           onClick={() => setOpen(false)}
         >
-          <span className="text-[15px] font-semibold tracking-tight text-primary">HEDGEWATERS</span>
-          <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          <span className="wordmark">HEDGEWATERS</span>
+          <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
             XPR Network
           </span>
         </Link>
 
-        {/* Active page title + subtitle replace the selected menu item */}
         {!isTerminal && (
           <div className="flex min-w-0 max-w-[min(100%,28rem)] flex-col justify-center border-l border-white/10 py-2.5 pl-4 md:max-w-md md:pl-7 lg:pl-10">
             <h1 className="truncate text-[17px] font-semibold leading-tight tracking-tight text-foreground md:text-[19px]">
@@ -59,22 +58,21 @@ export function TopNav() {
           </div>
         )}
 
-        {/* Remaining destinations — spaced farther from the title */}
-        <nav className="ml-auto hidden items-center gap-2 md:flex lg:gap-4">
+        <nav className="ml-auto hidden items-center gap-1 md:flex lg:gap-2">
           {otherPrimary.map(({ to, label, end }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
-              className="nav-caps hedge-shape px-2.5 py-1.5 text-muted-foreground transition-[color,background-color] duration-[var(--motion)] hover:bg-secondary/60 hover:text-foreground lg:px-3"
+              className="nav-caps rounded-sm px-2.5 py-1.5 text-muted-foreground transition-[color,background-color] duration-[var(--motion)] hover:bg-white/[0.04] hover:text-foreground lg:px-3"
             >
               {label}
             </NavLink>
           ))}
-          <div className="relative ml-1 lg:ml-3">
+          <div className="relative ml-1 lg:ml-2">
             <button
               type="button"
-              className="nav-caps hedge-shape px-2.5 py-1.5 text-muted-foreground hover:bg-secondary/60 hover:text-foreground lg:px-3"
+              className="nav-caps rounded-sm px-2.5 py-1.5 text-muted-foreground hover:bg-white/[0.04] hover:text-foreground lg:px-3"
               onClick={() => setMoreOpen((v) => !v)}
             >
               More ▾
@@ -92,7 +90,7 @@ export function TopNav() {
                     <Link
                       key={item.to}
                       to={item.to}
-                      className="nav-caps relative z-[1] block px-3 py-2 text-muted-foreground hover:bg-secondary/80 hover:text-foreground"
+                      className="nav-caps relative z-[1] block px-3 py-2 text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
                       onClick={() => setMoreOpen(false)}
                     >
                       {item.label}
@@ -105,7 +103,7 @@ export function TopNav() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 py-2">
-          <span className="water-edge hidden items-center gap-1.5 bg-[hsl(var(--glass)/0.55)] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:inline-flex">
+          <span className="hidden items-center gap-1.5 rounded-sm border border-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:inline-flex">
             <span className="h-1.5 w-1.5 rounded-full bg-success" />
             XPR
           </span>
@@ -124,14 +122,14 @@ export function TopNav() {
       <div className="water-rule" aria-hidden />
 
       {open && (
-        <nav className="flex flex-wrap gap-1 bg-[hsl(var(--glass)/0.7)] px-4 py-2 backdrop-blur-xl md:hidden">
+        <nav className="flex flex-wrap gap-1 border-t border-white/5 bg-[#000000] px-4 py-2 md:hidden">
           {[...otherPrimary, ...otherMore].map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={"end" in item ? item.end : false}
               onClick={() => setOpen(false)}
-              className="nav-caps hedge-shape px-3 py-1.5 text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+              className="nav-caps rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
             >
               {item.label}
             </NavLink>
