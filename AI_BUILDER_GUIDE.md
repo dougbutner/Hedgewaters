@@ -6,7 +6,7 @@ This document is for **human developers** and **AI coding agents** working in th
 
 ## 1. Purpose
 
-- Keep **UI, copy, and architecture** aligned with the existing **XPR Network multi-login** template (WebAuth + Anchor, multi-account header, transaction patterns).
+- Keep **UI, copy, and architecture** aligned with **Hedgewaters** (WebAuth + Anchor, multi-account nav, product pages + in-app docs).
 - Treat the linked **WAX NFT metadata standards** and **Loot staking contract** as **mandatory references** whenever the work involves NFTs, metadata schemas, or NFT staking—not optional alternatives.
 
 ---
@@ -15,10 +15,10 @@ This document is for **human developers** and **AI coding agents** working in th
 
 When extending the app, match what is already here unless the product owner explicitly changes direction:
 
-- **Theme:** Dark **black-and-gold** palette. Primary = rich gold; **accent** = lighter gold for highlights, focus rings, and hovers. Avoid reintroducing the old purple accent.
-- **Stack:** React, Vite, Tailwind, shadcn-style UI primitives (`src/components/ui/`).
-- **Wallets:** Respect multi-account flows (`Header`, wallet manifest, WebAuth + Anchor). Do not simplify to a single-account-only model without explicit approval.
-- **Copy:** Prefer clear, builder-focused language; keep **EASY** / **Flextokens** / XPR positioning consistent with `src/pages/Index.tsx` and `flex-tokens.md` where relevant.
+- **Theme:** Dark cool navy + soft blue (`#0B0D11` / `#6D8AED`). Headings **Bebas Neue**, body **Open Sans**.
+- **Stack:** React, Vite, Tailwind, small primitives in `src/components/ui/`.
+- **Wallets:** Respect multi-account flows (`ConnectButton`, wallet manifest, WebAuth + Anchor). Do not simplify to a single-account-only model without explicit approval.
+- **Copy:** Prefer clear DeFi language; keep **EASY** / **Flextokens** / XPR positioning consistent with in-app Docs and `flex-tokens.md` where relevant.
 
 ---
 

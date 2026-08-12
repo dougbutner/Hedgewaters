@@ -14,3 +14,4 @@ npm run build:contracts   # optional; also exercised by compile smoke when eosio
 | `easyloan-math.test.ts` | 50/50 split + 2% pool cap |
 | `flashloan-math.test.ts` | Flash fee / mode pick / repay invariant |
 | `contracts-abi.test.ts` | ABI actions/tables + compile smoke |
+| `ui-math.test.ts` | Asset parse + ICR / redeem estimate used by the UI |

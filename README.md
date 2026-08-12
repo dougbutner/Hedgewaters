@@ -1,31 +1,33 @@
-# XPR App Forge
+# Hedgewaters
 
-A **vanilla** Vite + React + TypeScript starter for **XPR Network** apps: **WebAuth** + **Anchor**, multi-account header, one active signer, and a plain **contract action** form. No UI kit, no query layer, no Radix/shadcn—native HTML and a few Tailwind classes.
+Vite + React + TypeScript app for **Hedgewaters** on **XPR Network**: Hedge CDP (`flexloans`), EASY half-loan (`easyloan`), and same-tx flash (`flashloan`). Liquity.app-inspired chrome — cool dark navy, blue accents, **Bebas Neue** headings, **Open Sans** body.
 
-Use it as a **copy template** for games and playful on-chain apps. Wallet code stays; you replace the page.
+Wallets: **WebAuth** + **Anchor**, multi-account, one active signer via `useProton` / `useWallet`.
 
 ---
 
 ## What you get
 
-- Connect **WebAuth** (browser / mobile) via [`@proton/web-sdk`](https://docs.xprnetwork.org/client-sdks/web.html) + `@proton/link`, or **Anchor** via WharfKit
-- Remember several wallets, switch the active signer, sign with `useProton().transact`
-- Black / gold theme tokens in `src/index.css` (`.btn`, `.input`, `.card`)
-- `skill/` markdown for contracts, RPC, NFTs, testing; Cursor skills under `.agents/skills/`
-
-Not included on purpose: DeFi dashboards, swaps, portfolios, or financial-product scaffolding.
+- Dashboard, Borrow, Earn, Redeem (Product A)
+- Easy half-loan flows (Product B)
+- Flash product page (Product C, docs-first)
+- In-app **Docs** (`/docs`, `/docs/:slug`)
+- Theme tokens in `src/index.css` (`.btn`, `.input`, `.card`)
+- `skill/` markdown for contracts, RPC, NFTs; Cursor skills under `.agents/skills/`
 
 ---
 
-## Stack (minimal)
+## Stack
 
 | Layer | Choice |
 |--------|--------|
 | Build | Vite 5 |
-| UI | React 18 + Tailwind utilities |
+| UI | React 18 + Tailwind |
+| Fonts | Bebas Neue (headings), Open Sans (body) |
 | Wallets | `@proton/web-sdk`, `@proton/link`, WharfKit session + Anchor plugin |
-| Routing | `react-router-dom` (`/`, 404) |
-| Tests | Vitest (smoke) |
+| Routing | `react-router-dom` |
+| Tests | Vitest under `tests/` only |
+| Contracts | C++ Antelope CDT in `contracts/` |
 
 ---
 
@@ -33,18 +35,17 @@ Not included on purpose: DeFi dashboards, swaps, portfolios, or financial-produc
 
 ```text
 src/
-  App.tsx                 # Router + Wharf dialog mount
-  main.tsx
-  index.css               # Theme + .btn / .input / .card
-  components/
-    Header.tsx            # Multi-wallet menu (native <details>)
-    TransactionForm.tsx   # Contract / action / JSON → transact
-  hooks/useProton.ts
-  pages/Index.tsx         # Home
-  pages/NotFound.tsx
+  App.tsx                 # Router + WalletProvider + Wharf dialog
+  layouts/AppShell.tsx    # TopNav + footer
+  layouts/DocsLayout.tsx
+  components/             # nav, wallet, markets, borrow, earn, redeem, easy, flash, docs, ui
+  content/docs/           # in-app documentation articles
+  pages/                  # Dashboard, Borrow, Earn, Redeem, Easy, Flash, docs, 404
+  lib/chain/              # RPC + flexloans / easyloan / flashloan helpers
+  hooks/                  # useProton, WalletProvider, useFlexData, useEasyData
   services/               # Wallet restore, WebAuth, Anchor, constants
-skill/                    # XPR / EOSIO guides
-.agents/skills/           # smart-contracts, alcor-exchange
+contracts/                # flexloans, easyloan, flashloan
+tests/                    # math + ABI (not under src/)
 ```
 
 ---
@@ -59,15 +60,16 @@ npm run preview
 npm run test
 ```
 
+Optional env (defaults shown):
+
+```bash
+VITE_FLEXLOANS_ACCOUNT=flexloans
+VITE_EASYLOAN_ACCOUNT=easyloan
+VITE_FLASHLOAN_ACCOUNT=flashloan
+VITE_EASY_TOKEN=mon3y
+```
+
 Chain endpoints and app name: `src/services/walletConstants.ts`.
-
----
-
-## How to build from this template
-
-1. Copy the repo (or clone).
-2. Keep wallet services; change pages/components only as needed.
-3. For on-chain contracts, follow `.agents/skills/smart-contracts/SKILL.md` and `skill/safety-guidelines.md`—**testnet first**.
 
 ---
 
@@ -75,17 +77,18 @@ Chain endpoints and app name: `src/services/walletConstants.ts`.
 
 | Doc | Purpose |
 |-----|---------|
+| In-app `/docs` | Protocol reference for users |
 | [`skill/SKILL.md`](skill/SKILL.md) | Index of `skill/` modules |
 | [`.agents/skills/smart-contracts/SKILL.md`](.agents/skills/smart-contracts/SKILL.md) | Contract build / deploy / safety |
-| [`AI_BUILDER_GUIDE.md`](AI_BUILDER_GUIDE.md) | UI + NFT metadata conventions |
-| [`Welcome.md`](Welcome.md) | First-session questions |
-| [`parameters.md`](parameters.md) | Template goals & style constraints |
+| [`Welcome.md`](Welcome.md) | Product one-liners |
+| [`parameters.md`](parameters.md) | Goals & style constraints |
+| [`project directive.md`](project%20directive.md) | On-chain product scope |
 
 ---
 
 ## Security
 
-Signed actions can change real chain state. Review generated code, use **testnet**, and read `skill/safety-guidelines.md` before deploying contracts. Prefer narrow game actions over the generic JSON form in production.
+Signed actions change real chain state. Review generated code, use **testnet**, and read `skill/safety-guidelines.md` before deploying contracts.
 
 ---
 
