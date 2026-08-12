@@ -11,6 +11,7 @@ Evidence base for Antelope/XPR contract design. Read before changing protocol co
 | [antelope-execution-model.md](./antelope-execution-model.md) | Notify vs inline |
 | [security-checklist.md](./security-checklist.md) | Audit checklist |
 | [vaults-sx-vulnerable-lines.md](./vaults-sx-vulnerable-lines.md) | Smoking-gun snippets |
+| [flashloan.md](./flashloan.md) | Product C flash modes, fees, deploy |
 | [IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md) | Dual-product build plan |
 
 **Source of truth:** [`../project directive.md`](../project%20directive.md)  

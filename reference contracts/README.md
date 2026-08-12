@@ -6,6 +6,7 @@ Vendored sources for **research and comparison only**. Do not deploy from here. 
 |------|--------|----------------|
 | `sx.vaults/` | [stableex/sx.vaults](https://github.com/stableex/sx.vaults) | Vulnerable vault — `update()` balance overwrite |
 | `sx.flash/` | [stableex/sx.flash](https://github.com/stableex/sx.flash) | Flash loan used as exploit trigger |
+| `flash-loans/` | ERC-3156, Maker dss-flash, Uniswap V3, Balancer V2, Aave V3, EOS Titan | Cross-protocol flash design refs for Product C |
 | `liquity-bold/` | [liquity/bold](https://github.com/liquity/bold) sparse: `contracts/src` | Liquity V2 economics reference |
 | `liquity-x-ts/` | Prior Hedgewaters Liquity-X TS scaffold | Parked multi-contract experiment |
 | `legacy-xpr/` | Prior Hedgewaters `contracts/` samples | Style refs (ups, invitono) + Alcor headers |

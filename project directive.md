@@ -7,12 +7,13 @@
 
 ---
 
-## 0. Two products
+## 0. Three products
 
 | # | Product | Contract | What |
 |---|---------|----------|------|
 | **A** | **Hedge CDP** | `flexloans` | Liquity-inspired multi-collateral CDP → mint HXUSD |
 | **B** | **EASY Half-Loan** | `easyloan` | EASY@mon3y 50/50 Alcor + reflections |
+| **C** | **Flash loans** | `flashloan` | Same-tx reserve / DEX-conversion / smart flash |
 
 Separate tables and debt. Shared Vaults.sx rules. C++ only.
 
@@ -20,11 +21,13 @@ Separate tables and debt. Shared Vaults.sx rules. C++ only.
 contracts/
   flexloans.hpp / flexloans.cpp   # Product A
   easyloan.hpp / easyloan.cpp     # Product B
+  flashloan.hpp / flashloan.cpp   # Product C
   README.md
 tests/                            # ALL tests live here (only)
 ```
 
 HXUSD = external `eosio.token` (or equivalent); `flexloans` is issuer (`issue` / `retire`).
+No HXUSD flash-mint in Product C.
 
 ---
 
@@ -53,6 +56,7 @@ HXUSD = external `eosio.token` (or equivalent); `flexloans` is issuer (`issue` /
 cd contracts
 eosio-cpp -abigen -I. -contract flexloans -o flexloans.wasm flexloans.cpp
 eosio-cpp -abigen -I. -contract easyloan  -o easyloan.wasm  easyloan.cpp
+eosio-cpp -abigen -I. -contract flashloan -o flashloan.wasm flashloan.cpp
 ```
 
 ---
@@ -93,10 +97,19 @@ See `research/easy-half-loan.md` and `contracts/easyloan.*`. Not a Liquity trove
 
 ---
 
+# PRODUCT C — flashloan
+
+Same-tx flash lender: `reserveflash` / `convflash` / `flash` (smart default).
+Fee 3 bps; 0 for Flex EASY/WON/MEME/GRAMS. Conversion via `swap.alcor` + `proton.swaps` only.
+Refs: `reference contracts/sx.flash/`, `reference contracts/flash-loans/`.
+Deploy: Flex tax opt-out on flash account. See `contracts/README.md`.
+
+---
+
 ## Source of truth
 
 1. This directive  
-2. `contracts/flexloans.*` / `easyloan.*`  
+2. `contracts/flexloans.*` / `easyloan.*` / `flashloan.*`  
 3. `tests/` (behavior checks)  
 4. `research/liquity-v2-feature-checklist.md`  
 5. `research/vaults-sx-breach.md`  

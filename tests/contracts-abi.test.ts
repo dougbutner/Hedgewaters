@@ -59,8 +59,32 @@ describe("contract ABI surface", () => {
     }
   });
 
+  it("flashloan exposes flash modes + admin", () => {
+    const abi = loadAbi("flashloan");
+    const actions = actionNames(abi);
+    for (const a of [
+      "setconfig",
+      "pause",
+      "setroute",
+      "delroute",
+      "addzerofee",
+      "withdraw",
+      "reserveflash",
+      "convflash",
+      "flash",
+      "callback",
+      "checkbalance",
+    ]) {
+      expect(actions).toContain(a);
+    }
+    const tables = tableNames(abi);
+    for (const t of ["config", "state", "routes", "zerofee"]) {
+      expect(tables).toContain(t);
+    }
+  });
+
   it("wasm artifacts exist and are non-trivial", () => {
-    for (const name of ["flexloans", "easyloan"]) {
+    for (const name of ["flexloans", "easyloan", "flashloan"]) {
       const wasm = join(contractsDir, `${name}.wasm`);
       expect(existsSync(wasm)).toBe(true);
       const buf = readFileSync(wasm);
@@ -71,7 +95,7 @@ describe("contract ABI surface", () => {
 });
 
 describe("contract compile smoke", () => {
-  it("eosio-cpp rebuilds both contracts", () => {
+  it("eosio-cpp rebuilds all contracts", () => {
     let hasCpp = true;
     try {
       execSync("which eosio-cpp", { stdio: "pipe" });
@@ -90,7 +114,12 @@ describe("contract compile smoke", () => {
       "eosio-cpp -abigen -I. -contract easyloan -o easyloan.wasm easyloan.cpp",
       { cwd: contractsDir, stdio: "pipe", timeout: 120_000 }
     );
+    execSync(
+      "eosio-cpp -abigen -I. -contract flashloan -o flashloan.wasm flashloan.cpp",
+      { cwd: contractsDir, stdio: "pipe", timeout: 120_000 }
+    );
     expect(existsSync(join(contractsDir, "flexloans.wasm"))).toBe(true);
     expect(existsSync(join(contractsDir, "easyloan.wasm"))).toBe(true);
+    expect(existsSync(join(contractsDir, "flashloan.wasm"))).toBe(true);
   }, 180_000);
 });

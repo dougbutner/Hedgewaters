@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build:contracts": "cd contracts && eosio-cpp -abigen -I. -contract flexloans -o flexloans.wasm flexloans.cpp && eosio-cpp -abigen -I. -contract easyloan -o easyloan.wasm easyloan.cpp"
+    "build:contracts": "cd contracts && eosio-cpp -abigen -I. -contract flexloans -o flexloans.wasm flexloans.cpp && eosio-cpp -abigen -I. -contract easyloan -o easyloan.wasm easyloan.cpp && eosio-cpp -abigen -I. -contract flashloan -o flashloan.wasm flashloan.cpp"
   },
   "dependencies": {
     "@proton/link": "^5.0.0",

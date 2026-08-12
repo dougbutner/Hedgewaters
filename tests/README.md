@@ -12,4 +12,5 @@ npm run build:contracts   # optional; also exercised by compile smoke when eosio
 | `flexloans-sp-math.test.ts` | Liquity Product-Sum (matches `flexloans` SP) |
 | `flexloans-icr.test.ts` | ICR / CCR / rate buckets / interest |
 | `easyloan-math.test.ts` | 50/50 split + 2% pool cap |
+| `flashloan-math.test.ts` | Flash fee / mode pick / repay invariant |
 | `contracts-abi.test.ts` | ABI actions/tables + compile smoke |
