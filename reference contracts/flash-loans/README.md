@@ -12,7 +12,7 @@ Also see sibling trees:
 ## Ranking used for Hedgewaters design
 
 1. **ERC-3156** — cleanest generic lender/borrower interface  
-2. **Maker `dss-flash`** — mint → callback → repay/burn (not used: no HXUSD flash-mint in Product C)  
+2. **Maker `dss-flash`** — mint → callback → repay/burn (not used: no HEDGE flash-mint in Product C)  
 3. **Uniswap V3 `flash`** — pool callback + repay principal + fee  
 4. **Balancer V2 Vault** — multi-asset vault flash  
 5. **Aave V3 `flashLoanSimple`** — production pool flash  

@@ -2,7 +2,7 @@
 
 ## Product A — flexloans (done scaffold)
 
-`contracts/flexloans.hpp|cpp` — compiles. Next: testnet deploy with HXUSD token (issuer = flexloans), markets, oracle `setprice`, borrow loop smoke test.
+`contracts/flexloans.hpp|cpp` — compiles. Next: testnet deploy with HEDGE token (issuer = flexloans), markets, oracle `setprice`, borrow loop smoke test.
 
 ## Product B — easyloan
 

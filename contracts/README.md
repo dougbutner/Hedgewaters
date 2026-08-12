@@ -4,7 +4,7 @@
 
 | Product | Files | Role |
 |---------|-------|------|
-| A — Hedge CDP | `flexloans.*` | Liquity-inspired CDP (HXUSD via external token issuer) |
+| A — Hedge CDP | `flexloans.*` | Liquity-inspired CDP (HEDGE via external token issuer) |
 | B — EASY Half-Loan | `easyloan.*` | EASY 50/50 Alcor + reflections |
 | C — Flash loans | `flashloan.*` | Reserve / conversion / smart same-tx flash |
 

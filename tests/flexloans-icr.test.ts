@@ -20,9 +20,9 @@ describe("flexloans ICR / rates / interest", () => {
     expect(icr < 11_000n).toBe(true);
   });
 
-  it("different precisions (6-dec USDC-style coll, 4-dec debt)", () => {
-    // 110 USDC (6 dec), 100 HXUSD (4 dec), price $1
-    const icr = icrBps(110_000000n, 100_0000n, 100_000_000n, 6, 4);
+  it("different precisions (6-dec USDC-style coll, 6-dec HEDGE debt)", () => {
+    // 110 USDC (6 dec), 100 HEDGE (6 dec), price $1
+    const icr = icrBps(110_000000n, 100_000000n, 100_000_000n, 6, 6);
     expect(icr).toBe(11_000n);
   });
 

@@ -12,7 +12,7 @@ export function MarketTable({
   pools?: FlexStabpool[];
   config?: FlexConfig | null;
 }) {
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
 
   return (
     <div className="panel overflow-x-auto">
@@ -49,7 +49,7 @@ export function MarketTable({
                 </td>
                 <td className="px-3 py-3 font-mono tabular-nums">{m.total_coll || "—"}</td>
                 <td className="px-3 py-3 font-mono tabular-nums">{m.total_debt || `0 ${debtSym}`}</td>
-                <td className="px-3 py-3 font-mono tabular-nums">{pool?.hxusd ?? `0 ${debtSym}`}</td>
+                <td className="px-3 py-3 font-mono tabular-nums">{pool?.hedge ?? `0 ${debtSym}`}</td>
                 <td className="px-3 py-3 font-mono tabular-nums">{formatPctBps(m.mcr_bps)}</td>
                 <td className="px-3 py-3 font-mono tabular-nums">{maxLtvPct(m.mcr_bps).toFixed(1)}%</td>
                 <td className="px-3 py-3">

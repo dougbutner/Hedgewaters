@@ -11,7 +11,7 @@
 
 | # | Product | Contract | What |
 |---|---------|----------|------|
-| **A** | **Hedge CDP** | `flexloans` | Liquity-inspired multi-collateral CDP → mint HXUSD |
+| **A** | **Hedge CDP** | `flexloans` | Liquity-inspired multi-collateral CDP → mint HEDGE |
 | **B** | **EASY Half-Loan** | `easyloan` | EASY@mon3y 50/50 Alcor + reflections |
 | **C** | **Flash loans** | `flashloan` | Same-tx reserve / DEX-conversion / smart flash |
 
@@ -26,8 +26,8 @@ contracts/
 tests/                            # ALL tests live here (only)
 ```
 
-HXUSD = external `eosio.token` (or equivalent); `flexloans` is issuer (`issue` / `retire`).
-No HXUSD flash-mint in Product C.
+HEDGE = external `eosio.token` (or equivalent), **precision 6** (`6,HEDGE`); `flexloans` is issuer (`issue` / `retire`).
+No HEDGE flash-mint in Product C.
 
 ---
 
@@ -65,7 +65,7 @@ eosio-cpp -abigen -I. -contract flashloan -o flashloan.wasm flashloan.cpp
 
 ## Mission
 
-Borrow against allowlisted collateral, mint **HXUSD**, pick a **rate bucket**, earn via **Stability Pool**, liquidate below MCR, redeem for peg (lowest rate first).
+Borrow against allowlisted collateral, mint **HEDGE**, pick a **rate bucket**, earn via **Stability Pool**, liquidate below MCR, redeem for peg (lowest rate first).
 
 ## In scope
 
@@ -81,9 +81,9 @@ Delegation/batches · NFT · SP stash · gas pools · continuous SortedTroves ·
 |------|-------|--------|
 | `open#<marketId>#<rateBps>` | coll | Open position |
 | `addcoll#<posId>` | coll | Add collateral |
-| `repay#<posId>` | HXUSD | Repay debt |
-| `sp#<marketId>` | HXUSD | Deposit to SP |
-| `redeem#<marketId>` | HXUSD | Redeem for coll |
+| `repay#<posId>` | HEDGE | Repay debt |
+| `sp#<marketId>` | HEDGE | Deposit to SP |
+| `redeem#<marketId>` | HEDGE | Redeem for coll |
 
 Actions: `borrow`, `withdrawcoll`, `setrate`, `closepos`, `withdrawsp`, `claimsp`, `liquidate`, `claimsurplus`, admin/oracle.
 

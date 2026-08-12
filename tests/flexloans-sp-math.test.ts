@@ -16,11 +16,11 @@ describe("flexloans SP Product-Sum", () => {
 
     // offset 50 debt, 10 coll — Liquity: depositor receives all 10 coll
     offset(pool, 50n, 10n);
-    expect(pool.hxusd).toBe(50n);
+    expect(pool.hedge).toBe(50n);
     expect(pool.product_p).toBe(INDEX_SCALE / 2n); // 5e11
 
     updateDeposit(dep, pool);
-    expect(dep.hxusd).toBe(50n);
+    expect(dep.hedge).toBe(50n);
     expect(dep.pending_coll).toBe(10n);
   });
 
@@ -35,7 +35,7 @@ describe("flexloans SP Product-Sum", () => {
 
     // Total coll distributed = 15; single depositor from t0 gets 15
     expect(dep.pending_coll).toBe(15n);
-    expect(dep.hxusd).toBe(25n); // 100 * (final P) / 1e12
+    expect(dep.hedge).toBe(25n); // 100 * (final P) / 1e12
 
     // Buggy old formula used ΔS/INDEX without embedding P in S:
     // after two offsets with S += coll*INDEX/total → pending would be 20
@@ -48,20 +48,20 @@ describe("flexloans SP Product-Sum", () => {
     mintYield(pool, 10n);
     updateDeposit(dep, pool);
     expect(dep.pending_yield).toBe(10n);
-    expect(dep.hxusd).toBe(100n);
+    expect(dep.hedge).toBe(100n);
   });
 
   it("epoch bump on full empty resets P and wipes remaining deposit after gains", () => {
     const pool = freshPool();
     const dep = provide(pool, null, 100n);
     offset(pool, 100n, 40n);
-    expect(pool.hxusd).toBe(0n);
+    expect(pool.hedge).toBe(0n);
     expect(pool.current_epoch).toBe(1);
     expect(pool.product_p).toBe(INDEX_SCALE);
 
     updateDeposit(dep, pool);
     expect(dep.pending_coll).toBe(40n);
-    expect(dep.hxusd).toBe(0n);
+    expect(dep.hedge).toBe(0n);
     expect(dep.epoch_snap).toBe(1);
   });
 
@@ -69,7 +69,7 @@ describe("flexloans SP Product-Sum", () => {
     const pool = freshPool();
     const a = provide(pool, null, 75n);
     const b = provide(pool, null, 25n);
-    expect(pool.hxusd).toBe(100n);
+    expect(pool.hedge).toBe(100n);
 
     offset(pool, 40n, 20n);
     updateDeposit(a, pool);

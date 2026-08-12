@@ -43,9 +43,9 @@ export function BorrowForm({
 
   const market = markets.find((m) => String(m.id) === String(marketId)) ?? markets[0];
   const collSym = market ? symbolCode(market.coll_symbol) || symbolCode(market.total_coll) : "COLL";
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
   const collPrec = parseAsset(market?.total_coll)?.precision ?? parseAsset(`0 ${collSym}`)?.precision ?? 4;
-  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 4;
+  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 6;
 
   const previewIcr = useMemo(() => {
     if (!market) return null;

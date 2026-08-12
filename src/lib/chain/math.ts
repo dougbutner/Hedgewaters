@@ -6,7 +6,7 @@ export function maxLtvPct(mcrBps: number): number {
   return (10000 / mcrBps) * 100;
 }
 
-/** ICR bps from integer asset units. HXUSD ~ $1. priceUsdE8 = USD per 1.0 coll × 1e8. */
+/** ICR bps from integer asset units. HEDGE ~ $1. priceUsdE8 = USD per 1.0 coll × 1e8. */
 export function icrBps(
   collAmt: bigint,
   debtAmt: bigint,
@@ -96,18 +96,18 @@ export function formatUsd(n: number | null | undefined): string {
   return `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-/** Coll out after redeem fee: HXUSD~$1 → coll = usd / price. */
+/** Coll out after redeem fee: HEDGE~$1 → coll = usd / price. */
 export function redeemCollEstimate(
-  hxusdAmt: bigint,
-  hxusdPrecision: number,
+  hedgeAmt: bigint,
+  hedgePrecision: number,
   priceUsdE8: bigint,
   collPrecision: number,
   feeBps: number
 ): bigint | null {
-  if (hxusdAmt <= 0n || priceUsdE8 <= 0n) return null;
-  const ds = 10n ** BigInt(hxusdPrecision);
+  if (hedgeAmt <= 0n || priceUsdE8 <= 0n) return null;
+  const ds = 10n ** BigInt(hedgePrecision);
   const cs = 10n ** BigInt(collPrecision);
-  const usdE8 = (hxusdAmt * 100_000_000n) / ds;
+  const usdE8 = (hedgeAmt * 100_000_000n) / ds;
   const collGross = (usdE8 * cs) / priceUsdE8;
   return (collGross * (BPS_DENOM - BigInt(feeBps))) / BPS_DENOM;
 }

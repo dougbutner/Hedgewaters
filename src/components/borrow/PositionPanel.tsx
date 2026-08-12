@@ -45,9 +45,9 @@ export function PositionPanel({
   const pos = positions.find((p) => String(p.id) === posId) ?? positions[0];
   const market = pos ? markets.find((m) => String(m.id) === String(pos.market_id)) : undefined;
   const collSym = market ? symbolCode(market.coll_symbol) || symbolCode(pos?.coll) : "COLL";
-  const debtSym = config ? symbolCode(config.debt_symbol) : symbolCode(pos?.debt) || "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : symbolCode(pos?.debt) || "HEDGE";
   const collPrec = parseAsset(pos?.coll)?.precision ?? 4;
-  const debtPrec = parseAsset(pos?.debt)?.precision ?? 4;
+  const debtPrec = parseAsset(pos?.debt)?.precision ?? 6;
 
   const icr =
     pos && market

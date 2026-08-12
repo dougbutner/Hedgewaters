@@ -3,7 +3,7 @@
 /*/
   flexloans — Hedge CDP (Liquity financial core on Antelope)
 
-  Multi-collateral CDP: deposit allowlisted coll → mint HXUSD at a rate
+  Multi-collateral CDP: deposit allowlisted coll → mint HEDGE at a rate
   bucket → Stability Pool earns interest + liquidation coll → redeem peg.
 
   Plan (this contract):
@@ -30,7 +30,7 @@
   Redistribution is debt-weighted (stake = debt). That diverges from Liquity
   V1 coll-weighted redist; ICR ordering under sequential liqs is not proven.
 
-  HXUSD = external eosio.token; flexloans is issuer (issue/retire).
+  HEDGE = external eosio.token (precision 6: 6,HEDGE); flexloans is issuer (issue/retire).
   Style: ups.hpp tables + invitono.cpp sections.
   Safety: research/vaults-sx-breach.md — never balance→overwrite accounting.
 /*/
@@ -134,12 +134,12 @@ class [[eosio::contract("flexloans")]] flexloans : public contract {
   /*/ --- stabpool ---
     product_p   = Liquity P (deposit loss product), starts INDEX_SCALE
     coll_scale  = S (coll gain per deposit unit, raw running sum)
-    yield_scale = G (HXUSD interest gain per deposit unit)
+    yield_scale = G (HEDGE interest gain per deposit unit)
     current_epoch bumps when SP empties or P would drop below P_MIN
   /*/
   TABLE stabpool {
     uint64_t market_id;
-    asset    hxusd;
+    asset    hedge;
     asset    coll_balance;
     uint64_t product_p;
     uint64_t coll_scale;
@@ -154,7 +154,7 @@ class [[eosio::contract("flexloans")]] flexloans : public contract {
     uint64_t id;
     name     owner;
     uint64_t market_id;
-    asset    hxusd;
+    asset    hedge;
     uint64_t product_snap;
     uint64_t coll_snap;
     uint64_t yield_snap;
@@ -251,7 +251,7 @@ class [[eosio::contract("flexloans")]] flexloans : public contract {
   void add_collateral(name from, asset quantity, uint64_t pos_id, const config& cfg);
   void repay_debt(name from, asset quantity, uint64_t pos_id, const config& cfg);
   void provide_sp(name from, asset quantity, uint64_t market_id, config& cfg);
-  void do_redeem(name from, asset hxusd_amount, uint64_t market_id, const config& cfg);
+  void do_redeem(name from, asset hedge_amount, uint64_t market_id, const config& cfg);
 
   void close_position_row(positions_t& positions, positions_t::const_iterator it,
                           markets_t& markets, const config& cfg);

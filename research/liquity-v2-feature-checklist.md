@@ -18,7 +18,7 @@
 | Feature | Notes |
 |---------|--------|
 | Multi-collateral isolated branches | Per-market debt + SP |
-| HXUSD mint/burn/transfer | BOLD analogue |
+| HEDGE mint/burn/transfer | BOLD analogue |
 | open / addColl / withdrawColl | Health-gated |
 | borrow / repay / adjust / close | |
 | Multiple positions per owner | `position_id`, no NFT |
@@ -28,7 +28,7 @@
 | Upfront borrow fee | Simple |
 | MIN_DEBT | |
 | SP provide / withdraw | |
-| SP claim coll + HXUSD yield | Direct claim (no stash) |
+| SP claim coll + HEDGE yield | Direct claim (no stash) |
 | Index-based SP math | No full depositor loops |
 | Liquidate ICR < MCR | No Recovery Mode |
 | SP offset then redistribution | |

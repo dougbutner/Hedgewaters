@@ -40,8 +40,8 @@ export function StabilityPoolCard({
   const [msg, setMsg] = useState<string | null>(null);
 
   const collSym = symbolCode(market.coll_symbol) || symbolCode(market.total_coll);
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
-  const debtPrec = parseAsset(config?.min_debt)?.precision ?? parseAsset(pool?.hxusd)?.precision ?? 4;
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
+  const debtPrec = parseAsset(config?.min_debt)?.precision ?? parseAsset(pool?.hedge)?.precision ?? 6;
 
   const run = async (
     actions: Array<{ account: string; name: string; data: Record<string, unknown> }>,
@@ -83,7 +83,7 @@ export function StabilityPoolCard({
         <dl className="grid grid-cols-3 gap-2 text-xs">
           <div>
             <dt className="text-muted-foreground">TVL</dt>
-            <dd className="mt-0.5 font-mono tabular-nums">{pool?.hxusd ?? `0 ${debtSym}`}</dd>
+            <dd className="mt-0.5 font-mono tabular-nums">{pool?.hedge ?? `0 ${debtSym}`}</dd>
           </div>
           <div>
             <dt className="text-muted-foreground">Coll gains</dt>
@@ -91,7 +91,7 @@ export function StabilityPoolCard({
           </div>
           <div>
             <dt className="text-muted-foreground">Yours</dt>
-            <dd className="mt-0.5 font-mono tabular-nums">{deposit?.hxusd ?? `0 ${debtSym}`}</dd>
+            <dd className="mt-0.5 font-mono tabular-nums">{deposit?.hedge ?? `0 ${debtSym}`}</dd>
           </div>
         </dl>
 

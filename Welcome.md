@@ -1,6 +1,6 @@
 # Welcome — Hedgewaters
 
-1. **flexloans** — Liquity-inspired CDP (HXUSD, rates, SP, liq, redeem)  
+1. **flexloans** — Liquity-inspired CDP (HEDGE, rates, SP, liq, redeem)  
 2. **easyloan** — EASY half-loan  
 3. **flashloan** — same-tx flash (reserve / convert / flash)  
 

@@ -4,9 +4,10 @@ export function FlexloansDoc() {
   return (
     <article className="space-y-6 text-sm leading-relaxed text-muted-foreground">
       <p>
-        Liquity-inspired CDP: deposit allowlisted collateral, mint <strong className="text-foreground">HXUSD</strong>{" "}
+        Liquity-inspired CDP: deposit allowlisted collateral, mint <strong className="text-foreground">HEDGE</strong>{" "}
         at a rate bucket, earn via Stability Pool, liquidate below MCR, redeem for peg (lowest rate first).
-        HXUSD is an external <code>eosio.token</code>; flexloans is issuer (<code>issue</code> / <code>retire</code>).
+        HEDGE is an external <code>eosio.token</code> with <strong className="text-foreground">6 decimals</strong>{" "}
+        (<code>6,HEDGE</code>); flexloans is issuer (<code>issue</code> / <code>retire</code>).
       </p>
 
       <h3 className="text-base font-semibold text-foreground">Transfer memos → flexloans</h3>
@@ -23,9 +24,9 @@ export function FlexloansDoc() {
             {[
               ["open#<marketId>#<rateBps>", "coll", "Open position"],
               ["addcoll#<posId>", "coll", "Add collateral"],
-              ["repay#<posId>", "HXUSD", "Repay debt"],
-              ["sp#<marketId>", "HXUSD", "Deposit to Stability Pool"],
-              ["redeem#<marketId>", "HXUSD", "Redeem for collateral"],
+              ["repay#<posId>", "HEDGE", "Repay debt"],
+              ["sp#<marketId>", "HEDGE", "Deposit to Stability Pool"],
+              ["redeem#<marketId>", "HEDGE", "Redeem for collateral"],
             ].map((row) => (
               <tr key={row[0]} className="border-b border-border/60 last:border-0">
                 <td className="py-2 pr-3 font-mono text-foreground">{row[0]}</td>

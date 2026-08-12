@@ -14,10 +14,10 @@ export function ProtocolStats({
   loading?: boolean;
 }) {
   const debtPrec =
-    parseAsset(config?.min_debt)?.precision ?? parseAsset(markets[0]?.total_debt)?.precision ?? 4;
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+    parseAsset(config?.min_debt)?.precision ?? parseAsset(markets[0]?.total_debt)?.precision ?? 6;
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
   const totalDebt = markets.reduce((a, m) => a + (parseAsset(m.total_debt)?.amount ?? 0n), 0n);
-  const spTvl = pools.reduce((a, p) => a + (parseAsset(p.hxusd)?.amount ?? 0n), 0n);
+  const spTvl = pools.reduce((a, p) => a + (parseAsset(p.hedge)?.amount ?? 0n), 0n);
   const avgRate =
     markets.length > 0
       ? Math.round(markets.reduce((a, m) => a + (m.mcr_bps || 0), 0) / markets.length)

@@ -24,7 +24,7 @@ export default function Borrow() {
     reload,
   } = useFlexData(actor);
 
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
 
   return (
     <div className="stagger space-y-5">

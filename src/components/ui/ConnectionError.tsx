@@ -14,7 +14,7 @@ export function ConnectionError({
 
   return (
     <div className="panel">
-      <div className="flex flex-wrap items-start justify-between gap-3 px-5 py-4">
+      <div className="relative z-[1] flex flex-wrap items-start justify-between gap-3 px-5 py-4">
         <div>
           <p className="text-sm font-medium text-foreground">Markets temporarily unavailable</p>
           <p className="mt-1 text-xs text-muted-foreground">
@@ -27,7 +27,7 @@ export function ConnectionError({
           </button>
         )}
       </div>
-      <div className="border-t border-border px-5 py-2">
+      <div className="relative z-[1] border-t border-border px-5 py-2">
         <button
           type="button"
           className="text-[11px] font-medium text-muted-foreground hover:text-foreground"
@@ -62,7 +62,7 @@ export function CompactEmpty({
 }) {
   return (
     <div className="panel px-5 py-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="relative z-[1] flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-foreground">{title}</p>
           {children && <p className="mt-1 text-xs text-muted-foreground">{children}</p>}

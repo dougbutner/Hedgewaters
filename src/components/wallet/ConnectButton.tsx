@@ -54,7 +54,8 @@ export function ConnectButton() {
         <span className="max-w-[140px] truncate">{actor}</span>
         <span aria-hidden>▾</span>
       </summary>
-      <div className="absolute right-0 z-50 mt-2 w-80 rounded-lg border bg-popover p-2 shadow-md">
+      <div className="panel absolute right-0 z-50 mt-2 w-80 p-2 shadow-md">
+        <div className="relative z-[1]">
         <div className="flex items-center gap-2 px-2 py-2">
           <span className="min-w-0 flex-1 truncate font-medium">{actor}</span>
           <button type="button" className="btn btn-ghost btn-sm" onClick={copyActor}>
@@ -101,6 +102,7 @@ export function ConnectButton() {
         >
           Disconnect all
         </button>
+        </div>
       </div>
     </details>
   );

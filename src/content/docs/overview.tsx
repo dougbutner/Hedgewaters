@@ -24,7 +24,7 @@ export function OverviewDoc() {
                 <code>flexloans</code>
               </td>
               <td className="py-2">
-                Multi-collateral CDP → mint HXUSD.{" "}
+                Multi-collateral CDP → mint HEDGE.{" "}
                 <Link to="/borrow" className="text-primary hover:underline">
                   App
                 </Link>

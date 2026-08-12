@@ -53,7 +53,7 @@ export function PositionSummary({
           <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
             Transaction Preview
           </p>
-          <div className="space-y-2 rounded-md bg-background px-3 py-2.5 text-xs">
+          <div className="water-edge space-y-2 bg-[#000000] px-3 py-2.5 text-xs">
             <div className="flex justify-between gap-3">
               <span className="text-muted-foreground">You deposit</span>
               <span className="font-mono tabular-nums">{depositPreview}</span>

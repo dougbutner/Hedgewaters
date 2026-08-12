@@ -262,17 +262,17 @@ ACTION flexloans::withdrawsp(name owner, uint64_t market_id, asset amount) {
 
   spdeposit d = *dit;
   update_sp_deposit(d, *spit);
-  check(amount.amount <= d.hxusd.amount, "flexloans: sp balance");
-  check(spit->hxusd.amount >= amount.amount, "flexloans: sp total");
+  check(amount.amount <= d.hedge.amount, "flexloans: sp balance");
+  check(spit->hedge.amount >= amount.amount, "flexloans: sp total");
 
-  pools.modify(spit, same_payer, [&](auto& r) { r.hxusd.amount -= amount.amount; });
-  d.hxusd.amount -= amount.amount;
+  pools.modify(spit, same_payer, [&](auto& r) { r.hedge.amount -= amount.amount; });
+  d.hedge.amount -= amount.amount;
   d.product_snap = spit->product_p;
   d.coll_snap = spit->coll_scale;
   d.yield_snap = spit->yield_scale;
   d.epoch_snap = spit->current_epoch;
 
-  if (d.hxusd.amount == 0 && d.pending_coll.amount == 0 && d.pending_yield.amount == 0)
+  if (d.hedge.amount == 0 && d.pending_coll.amount == 0 && d.pending_yield.amount == 0)
     deps.erase(dit);
   else
     deps.modify(dit, same_payer, [&](auto& r) { r = d; });
@@ -343,8 +343,8 @@ ACTION flexloans::liquidate(uint64_t pos_id) {
   stabpools_t pools(get_self(), get_self().value);
   auto spit = pools.require_find(market_id, "flexloans: stabpool");
 
-  const int64_t sp_hxusd = spit->hxusd.amount;
-  const int64_t offset_debt = debt < sp_hxusd ? debt : sp_hxusd;
+  const int64_t sp_hedge = spit->hedge.amount;
+  const int64_t offset_debt = debt < sp_hedge ? debt : sp_hedge;
   const int64_t offset_coll = debt > 0
     ? (int64_t)(((__int128)coll * offset_debt) / debt) : 0;
   const int64_t rem_debt = debt - offset_debt;
@@ -352,15 +352,15 @@ ACTION flexloans::liquidate(uint64_t pos_id) {
   const uint64_t peer_stake = mit->total_stake > stake ? mit->total_stake - stake : 0;
 
   if (offset_debt > 0) {
-    const int64_t remaining_sp = sp_hxusd - offset_debt;
-    uint64_t new_p = (uint64_t)(((__int128)spit->product_p * remaining_sp) / sp_hxusd);
+    const int64_t remaining_sp = sp_hedge - offset_debt;
+    uint64_t new_p = (uint64_t)(((__int128)spit->product_p * remaining_sp) / sp_hedge);
     // Liquity: ΔS = coll * P / totalDeposits (P before decrease)
-    uint64_t coll_add = (uint64_t)(((__int128)offset_coll * spit->product_p) / sp_hxusd);
+    uint64_t coll_add = (uint64_t)(((__int128)offset_coll * spit->product_p) / sp_hedge);
     // Epoch reset when SP emptied or P would collapse (never stick product_p at 1)
     const bool epoch_bump = (remaining_sp == 0) || (new_p < P_MIN);
     pools.modify(spit, same_payer, [&](auto& r) {
       r.coll_scale += coll_add;
-      r.hxusd.amount -= offset_debt;
+      r.hedge.amount -= offset_debt;
       r.coll_balance.amount += offset_coll;
       if (epoch_bump) {
         r.current_epoch += 1;
@@ -433,7 +433,7 @@ void flexloans::on_transfer(name from, name to, asset quantity, string memo) {
   auto cfg = check_config();
   check(!cfg.paused, "flexloans: paused");
 
-  // HXUSD in: repay / sp / redeem
+  // HEDGE in: repay / sp / redeem
   if (get_first_receiver() == cfg.debt_contract && quantity.symbol == cfg.debt_symbol) {
     if (memo.size() >= 6 && memo.substr(0, 6) == "repay#") {
       repay_debt(from, quantity, parse_u64(memo.substr(6)), cfg);
@@ -450,7 +450,7 @@ void flexloans::on_transfer(name from, name to, asset quantity, string memo) {
       do_redeem(from, quantity, parse_u64(memo.substr(7)), cfg);
       return;
     }
-    check(false, "flexloans: bad hxusd memo");
+    check(false, "flexloans: bad hedge memo");
   }
 
   // Collateral in: open / addcoll
@@ -573,7 +573,7 @@ void flexloans::provide_sp(name from, asset quantity, uint64_t market_id, config
       r.id = id;
       r.owner = from;
       r.market_id = market_id;
-      r.hxusd = quantity;
+      r.hedge = quantity;
       r.product_snap = spit->product_p;
       r.coll_snap = spit->coll_scale;
       r.yield_snap = spit->yield_scale;
@@ -584,7 +584,7 @@ void flexloans::provide_sp(name from, asset quantity, uint64_t market_id, config
   } else {
     spdeposit d = *fit;
     update_sp_deposit(d, *spit);
-    d.hxusd.amount += quantity.amount;
+    d.hedge.amount += quantity.amount;
     d.product_snap = spit->product_p;
     d.coll_snap = spit->coll_scale;
     d.yield_snap = spit->yield_scale;
@@ -592,11 +592,11 @@ void flexloans::provide_sp(name from, asset quantity, uint64_t market_id, config
     byom.modify(fit, same_payer, [&](auto& r) { r = d; });
   }
 
-  pools.modify(spit, same_payer, [&](auto& r) { r.hxusd.amount += quantity.amount; });
+  pools.modify(spit, same_payer, [&](auto& r) { r.hedge.amount += quantity.amount; });
 }//END provide_sp
 
-void flexloans::do_redeem(name from, asset hxusd_amount, uint64_t market_id, const config& cfg) {
-  check(hxusd_amount.amount > 0, "flexloans: amount");
+void flexloans::do_redeem(name from, asset hedge_amount, uint64_t market_id, const config& cfg) {
+  check(hedge_amount.amount > 0, "flexloans: amount");
   markets_t markets(get_self(), get_self().value);
   auto mit = markets.require_find(market_id, "flexloans: market");
   require_fresh_price(*mit);
@@ -621,11 +621,11 @@ void flexloans::do_redeem(name from, asset hxusd_amount, uint64_t market_id, con
 
   // coll paid for $1 debt: debt_usd / price, minus fee
   // coll_amt = debt * debt_scale_inv * price_inv ...
-  // 1.0 HXUSD (~$1) buys (1e8 / price_usd_e8) coll whole-units, scaled by precisions
+  // 1.0 HEDGE (~$1) buys (1e8 / price_usd_e8) coll whole-units, scaled by precisions
   uint64_t coll_unit = pow10u(mit->coll_symbol.precision());
   uint64_t debt_unit = pow10u(cfg.debt_symbol.precision());
 
-  int64_t remaining = hxusd_amount.amount;
+  int64_t remaining = hedge_amount.amount;
   int64_t coll_paid_total = 0;
   uint8_t hits = 0;
   const uint8_t max_hits = 20;
@@ -690,7 +690,7 @@ void flexloans::do_redeem(name from, asset hxusd_amount, uint64_t market_id, con
     hits++;
   }
 
-  int64_t burned = hxusd_amount.amount - remaining;
+  int64_t burned = hedge_amount.amount - remaining;
   check(burned > 0, "flexloans: nothing redeemed");
 
   // bump baseRate with redeemed share of supply
@@ -701,7 +701,7 @@ void flexloans::do_redeem(name from, asset hxusd_amount, uint64_t market_id, con
 
   retire_debt(asset{burned, cfg.debt_symbol}, "flexloans redeem");
   if (remaining > 0) {
-    // refund unredeemed HXUSD
+    // refund unredeemed HEDGE
     send_token(cfg.debt_contract, from, asset{remaining, cfg.debt_symbol}, "flexloans redeem refund");
   }
   if (coll_paid_total > 0) {
@@ -842,7 +842,7 @@ void flexloans::ensure_stabpool(uint64_t market_id, const symbol& debt_sym,
   if (pools.find(market_id) != pools.end()) return;
   pools.emplace(get_self(), [&](auto& r) {
     r.market_id = market_id;
-    r.hxusd = asset{0, debt_sym};
+    r.hedge = asset{0, debt_sym};
     r.coll_balance = asset{0, coll_sym};
     r.product_p = INDEX_SCALE;
     r.coll_scale = 0;
@@ -861,7 +861,7 @@ void flexloans::ensure_stabpool(uint64_t market_id, const symbol& debt_sym,
 void flexloans::update_sp_deposit(spdeposit& d, const stabpool& sp) {
   check(d.product_snap > 0, "flexloans: sp P_snap");
 
-  if (d.hxusd.amount <= 0) {
+  if (d.hedge.amount <= 0) {
     d.product_snap = sp.product_p;
     d.coll_snap = sp.coll_scale;
     d.yield_snap = sp.yield_scale;
@@ -869,7 +869,7 @@ void flexloans::update_sp_deposit(spdeposit& d, const stabpool& sp) {
     return;
   }
 
-  const int64_t dep = d.hxusd.amount;
+  const int64_t dep = d.hedge.amount;
   const uint64_t p_snap = d.product_snap;
 
   if (sp.coll_scale > d.coll_snap) {
@@ -883,11 +883,11 @@ void flexloans::update_sp_deposit(spdeposit& d, const stabpool& sp) {
 
   if (d.epoch_snap != sp.current_epoch) {
     // Epoch advanced (SP emptied or P collapsed) — remaining deposit wiped
-    d.hxusd.amount = 0;
+    d.hedge.amount = 0;
   } else {
     int64_t compounded = (int64_t)(((__int128)dep * sp.product_p) / p_snap);
     if (compounded < 0) compounded = 0;
-    d.hxusd.amount = compounded;
+    d.hedge.amount = compounded;
   }
 
   d.product_snap = sp.product_p;
@@ -900,13 +900,13 @@ void flexloans::mint_interest_to_sp(uint64_t market_id, asset interest) {
   if (interest.amount <= 0) return;
   stabpools_t pools(get_self(), get_self().value);
   auto spit = pools.require_find(market_id, "flexloans: stabpool");
-  if (spit->hxusd.amount <= 0) {
+  if (spit->hedge.amount <= 0) {
     // no depositors — hold as unallocated: still issue to contract for accounting
     issue_debt(get_self(), interest, "flexloans interest hold");
     return;
   }
   // Liquity: ΔG = interest * P / totalDeposits
-  uint64_t add = (uint64_t)(((__int128)interest.amount * spit->product_p) / spit->hxusd.amount);
+  uint64_t add = (uint64_t)(((__int128)interest.amount * spit->product_p) / spit->hedge.amount);
   pools.modify(spit, same_payer, [&](auto& r) {
     r.yield_scale += add;
   });

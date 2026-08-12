@@ -57,7 +57,7 @@ describe("mock chain SQL store", () => {
       limit: 1,
     });
     expect(config.rows[0]).toMatchObject({
-      debt_symbol: "4,HXUSD",
+      debt_symbol: "6,HEDGE",
       paused: false,
     });
 
@@ -133,7 +133,7 @@ describe("mock chain fetch shim", () => {
       expect(rows[0].id).toBe(1);
 
       const cfg = await getSingleton<{ debt_symbol: string }>(MOCK_FLEXLOANS, "config");
-      expect(cfg?.debt_symbol).toBe("4,HXUSD");
+      expect(cfg?.debt_symbol).toBe("6,HEDGE");
 
       const markets = await fetchFlexMarkets();
       const pools = await fetchFlexStabpools();

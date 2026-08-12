@@ -30,7 +30,7 @@ export default function Redeem() {
               <h2 className="text-sm font-semibold">How redemption works</h2>
             </div>
             <ul className="panel-body list-disc space-y-2 pl-5 text-xs text-muted-foreground">
-              <li>Used when HXUSD is below $1 to restore the peg.</li>
+              <li>Used when HEDGE is below $1 to restore the peg.</li>
               <li>Positions with the lowest interest rate are redeemed first.</li>
               <li>Collateral and debt decrease together — no net loss for the borrower.</li>
               <li>Zombie positions below min debt are cleaned up on redeem.</li>

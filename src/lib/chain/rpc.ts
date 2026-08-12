@@ -12,6 +12,11 @@ export type TableQuery = {
   reverse?: boolean;
 };
 
+function isMissingAccountError(status: number, body: string): boolean {
+  if (status !== 400 && status !== 404 && status !== 500) return false;
+  return /account_query_exception|Fail to retrieve account|unknown key|does not exist/i.test(body);
+}
+
 export async function getTableRows<T>(opts: TableQuery): Promise<T[]> {
   let lastErr: unknown;
   for (const ep of CHAIN_ENDPOINTS) {
@@ -32,8 +37,13 @@ export async function getTableRows<T>(opts: TableQuery): Promise<T[]> {
           reverse: opts.reverse,
         }),
       });
-      if (!res.ok) throw new Error(`RPC ${res.status}`);
-      const data = (await res.json()) as { rows?: T[] };
+      const text = await res.text();
+      if (!res.ok) {
+        // Undeployed / unknown contract → empty tables (UI can show empty state).
+        if (isMissingAccountError(res.status, text)) return [];
+        throw new Error(`RPC ${res.status}`);
+      }
+      const data = JSON.parse(text) as { rows?: T[] };
       return data.rows ?? [];
     } catch (err) {
       lastErr = err;
@@ -60,8 +70,12 @@ export async function getCurrencyBalance(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, account, symbol: symbol || undefined }),
       });
-      if (!res.ok) throw new Error(`RPC ${res.status}`);
-      const data = (await res.json()) as string[];
+      const text = await res.text();
+      if (!res.ok) {
+        if (isMissingAccountError(res.status, text)) return null;
+        throw new Error(`RPC ${res.status}`);
+      }
+      const data = JSON.parse(text) as string[];
       return data[0] ?? null;
     } catch (err) {
       lastErr = err;

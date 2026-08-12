@@ -14,7 +14,7 @@ import { seedFlexloans } from "./seed";
 import { MockChainRpc, installMockFetch } from "./rpc";
 
 export { MockChainStore, defaultDbPath, defaultSnapshotPath } from "./store";
-export { seedFlexloans, flexloansSeedRows, MOCK_FLEXLOANS, MOCK_HXUSD_TOKEN } from "./seed";
+export { seedFlexloans, flexloansSeedRows, MOCK_FLEXLOANS, MOCK_HEDGE_TOKEN } from "./seed";
 export { MockChainRpc, installMockFetch } from "./rpc";
 export type { GetTableRowsRequest, GetTableRowsResponse } from "./rpc";
 export type { UpsertRowInput, TableRowPayload } from "./store";

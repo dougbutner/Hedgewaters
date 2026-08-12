@@ -16,10 +16,10 @@ export function StabilityPoolSection({
   config: FlexConfig | null;
   compact?: boolean;
 }) {
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
-  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 4;
-  const totalSp = pools.reduce((a, p) => a + (parseAsset(p.hxusd)?.amount ?? 0n), 0n);
-  const myTotal = deposits.reduce((a, d) => a + (parseAsset(d.hxusd)?.amount ?? 0n), 0n);
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
+  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 6;
+  const totalSp = pools.reduce((a, p) => a + (parseAsset(p.hedge)?.amount ?? 0n), 0n);
+  const myTotal = deposits.reduce((a, d) => a + (parseAsset(d.hedge)?.amount ?? 0n), 0n);
 
   return (
     <section>
@@ -74,9 +74,9 @@ export function StabilityPoolSection({
                 return (
                   <tr key={String(m.id)} className="border-b border-border/50 last:border-0">
                     <td className="px-4 py-3 font-medium">{sym} Pool</td>
-                    <td className="px-3 py-3 font-mono tabular-nums">{pool?.hxusd ?? `0 ${debtSym}`}</td>
+                    <td className="px-3 py-3 font-mono tabular-nums">{pool?.hedge ?? `0 ${debtSym}`}</td>
                     <td className="px-3 py-3 font-mono tabular-nums">{pool?.coll_balance ?? "—"}</td>
-                    <td className="px-3 py-3 font-mono tabular-nums">{dep?.hxusd ?? `0 ${debtSym}`}</td>
+                    <td className="px-3 py-3 font-mono tabular-nums">{dep?.hedge ?? `0 ${debtSym}`}</td>
                     <td className="px-4 py-3 text-right">
                       <Link to={`/earn?market=${m.id}`} className="text-xs font-medium text-primary hover:underline">
                         Deposit

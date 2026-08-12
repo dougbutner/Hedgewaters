@@ -5,7 +5,7 @@
 import type { MockChainStore, UpsertRowInput } from "./store";
 
 export const MOCK_FLEXLOANS = "flexloans";
-export const MOCK_HXUSD_TOKEN = "eosio.token";
+export const MOCK_HEDGE_TOKEN = "eosio.token";
 
 const now = Math.floor(Date.now() / 1000);
 
@@ -21,9 +21,9 @@ export function flexloansSeedRows(): UpsertRowInput[] {
       primaryKey: 0,
       payload: {
         admin: "flexadmin",
-        debt_contract: MOCK_HXUSD_TOKEN,
-        debt_symbol: "4,HXUSD",
-        min_debt: "10.0000 HXUSD",
+        debt_contract: MOCK_HEDGE_TOKEN,
+        debt_symbol: "6,HEDGE",
+        min_debt: "10.000000 HEDGE",
         borrow_fee_bps: 50,
         redeem_fee_floor_bps: 50,
         redeem_fee_max_bps: 500,
@@ -54,9 +54,9 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         price_updated: now,
         mcr_bps: 11000,
         ccr_bps: 15000,
-        mint_cap: "1000000.0000 HXUSD",
+        mint_cap: "1000000.000000 HEDGE",
         total_coll: "250000.0000 XPR",
-        total_debt: "20000.0000 HXUSD",
+        total_debt: "20000.000000 HEDGE",
         total_stake: 2500000000,
         redist_coll_x: 0,
         redist_debt_x: 0,
@@ -75,9 +75,9 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         price_updated: now,
         mcr_bps: 11000,
         ccr_bps: 15000,
-        mint_cap: "500000.0000 HXUSD",
+        mint_cap: "500000.000000 HEDGE",
         total_coll: "1.25000000 XBTC",
-        total_debt: "50000.0000 HXUSD",
+        total_debt: "50000.000000 HEDGE",
         total_stake: 125000000,
         redist_coll_x: 0,
         redist_debt_x: 0,
@@ -90,7 +90,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
       primaryKey: 1,
       payload: {
         market_id: 1,
-        hxusd: "8000.0000 HXUSD",
+        hedge: "8000.000000 HEDGE",
         coll_balance: "0.0000 XPR",
         product_p: PRODUCT_P,
         coll_scale: 0,
@@ -104,7 +104,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
       primaryKey: 2,
       payload: {
         market_id: 2,
-        hxusd: "15000.0000 HXUSD",
+        hedge: "15000.000000 HEDGE",
         coll_balance: "0.00000000 XBTC",
         product_p: PRODUCT_P,
         coll_scale: 0,
@@ -121,7 +121,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         owner: "alice",
         market_id: 1,
         coll: "100000.0000 XPR",
-        debt: "8000.0000 HXUSD",
+        debt: "8000.000000 HEDGE",
         rate_bps: 500,
         seq: 1,
         stake: 1000000000,
@@ -140,7 +140,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         owner: "bob",
         market_id: 2,
         coll: "0.50000000 XBTC",
-        debt: "20000.0000 HXUSD",
+        debt: "20000.000000 HEDGE",
         rate_bps: 300,
         seq: 2,
         stake: 50000000,
@@ -158,13 +158,13 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         id: 1,
         owner: "carol",
         market_id: 1,
-        hxusd: "2500.0000 HXUSD",
+        hedge: "2500.000000 HEDGE",
         product_snap: PRODUCT_P,
         coll_snap: 0,
         yield_snap: 0,
         epoch_snap: 0,
         pending_coll: "0.0000 XPR",
-        pending_yield: "0.0000 HXUSD",
+        pending_yield: "0.000000 HEDGE",
       },
     },
   ];
@@ -173,7 +173,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
 export function seedFlexloans(store: MockChainStore): void {
   store.clear();
   store.upsertRows(flexloansSeedRows());
-  store.setBalance(MOCK_HXUSD_TOKEN, "alice", "100.0000 HXUSD");
+  store.setBalance(MOCK_HEDGE_TOKEN, "alice", "100.000000 HEDGE");
   store.setBalance("eosio.token", "alice", "5000.0000 XPR");
   store.setMeta("seed", "flexloans-default");
   store.setMeta("seeded_at", new Date().toISOString());

@@ -59,10 +59,10 @@ export function BorrowWorkspace({
 
   const market = markets.find((m) => String(m.id) === String(marketId)) ?? markets[0];
   const collSym = market ? symbolCode(market.coll_symbol) || symbolCode(market.total_coll) : "COLL";
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
   const collPrec =
     parseAsset(market?.total_coll)?.precision ?? parseAsset(`0.0000 ${collSym}`)?.precision ?? 4;
-  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 4;
+  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 6;
   const priceE8 = BigInt(market?.price_usd_e8 || 0);
   const mcr = market?.mcr_bps ?? 11000;
   const feeBps = config?.borrow_fee_bps ?? 0;
@@ -146,7 +146,7 @@ export function BorrowWorkspace({
     }
     const loanQty = loan.trim() ? parseDecimalToAsset(loan, debtPrec, debtSym) : null;
     if (!loan.trim() || !loanQty) {
-      setStatus({ type: "err", message: "Enter a valid HXUSD borrow amount." });
+      setStatus({ type: "err", message: "Enter a valid HEDGE borrow amount." });
       return;
     }
     if (loanParsed && loanParsed.amount > maxBorrow) {

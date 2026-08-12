@@ -10,7 +10,7 @@ const PAGES: { match: (path: string) => boolean; meta: PageMeta }[] = [
   {
     match: (p) => p === "/" || p === "/borrow",
     meta: {
-      title: "Borrow HXUSD",
+      title: "Borrow HEDGE",
       subtitle: "Open a Hedge CDP against allowlisted collateral",
     },
   },
@@ -25,7 +25,7 @@ const PAGES: { match: (path: string) => boolean; meta: PageMeta }[] = [
     match: (p) => p.startsWith("/earn"),
     meta: {
       title: "Stability Pool",
-      subtitle: "Deposit HXUSD to absorb liquidations and earn interest",
+      subtitle: "Deposit HEDGE to absorb liquidations and earn interest",
     },
   },
   {
@@ -46,7 +46,7 @@ const PAGES: { match: (path: string) => boolean; meta: PageMeta }[] = [
     match: (p) => p.startsWith("/redeem"),
     meta: {
       title: "Redeem",
-      subtitle: "Swap HXUSD for collateral at the peg",
+      subtitle: "Swap HEDGE for collateral at the peg",
     },
   },
   {

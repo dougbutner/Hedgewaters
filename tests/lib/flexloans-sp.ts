@@ -6,7 +6,7 @@ export const INDEX_SCALE = 1_000_000_000_000n;
 export const P_MIN = INDEX_SCALE / 1_000_000n;
 
 export type StabPool = {
-  hxusd: bigint;
+  hedge: bigint;
   product_p: bigint;
   coll_scale: bigint;
   yield_scale: bigint;
@@ -14,7 +14,7 @@ export type StabPool = {
 };
 
 export type SpDeposit = {
-  hxusd: bigint;
+  hedge: bigint;
   product_snap: bigint;
   coll_snap: bigint;
   yield_snap: bigint;
@@ -25,7 +25,7 @@ export type SpDeposit = {
 
 export function freshPool(): StabPool {
   return {
-    hxusd: 0n,
+    hedge: 0n,
     product_p: INDEX_SCALE,
     coll_scale: 0n,
     yield_scale: 0n,
@@ -34,10 +34,10 @@ export function freshPool(): StabPool {
 }
 
 export function provide(pool: StabPool, dep: SpDeposit | null, amount: bigint): SpDeposit {
-  pool.hxusd += amount;
+  pool.hedge += amount;
   if (!dep) {
     return {
-      hxusd: amount,
+      hedge: amount,
       product_snap: pool.product_p,
       coll_snap: pool.coll_scale,
       yield_snap: pool.yield_scale,
@@ -47,7 +47,7 @@ export function provide(pool: StabPool, dep: SpDeposit | null, amount: bigint): 
     };
   }
   updateDeposit(dep, pool);
-  dep.hxusd += amount;
+  dep.hedge += amount;
   dep.product_snap = pool.product_p;
   dep.coll_snap = pool.coll_scale;
   dep.yield_snap = pool.yield_scale;
@@ -58,14 +58,14 @@ export function provide(pool: StabPool, dep: SpDeposit | null, amount: bigint): 
 /** Liquity Product-Sum update (flexloans::update_sp_deposit) */
 export function updateDeposit(d: SpDeposit, sp: StabPool): void {
   if (d.product_snap <= 0n) throw new Error("P_snap");
-  if (d.hxusd <= 0n) {
+  if (d.hedge <= 0n) {
     d.product_snap = sp.product_p;
     d.coll_snap = sp.coll_scale;
     d.yield_snap = sp.yield_scale;
     d.epoch_snap = sp.current_epoch;
     return;
   }
-  const dep = d.hxusd;
+  const dep = d.hedge;
   const pSnap = d.product_snap;
   if (sp.coll_scale > d.coll_snap) {
     d.pending_coll += (dep * (sp.coll_scale - d.coll_snap)) / pSnap;
@@ -74,9 +74,9 @@ export function updateDeposit(d: SpDeposit, sp: StabPool): void {
     d.pending_yield += (dep * (sp.yield_scale - d.yield_snap)) / pSnap;
   }
   if (d.epoch_snap !== sp.current_epoch) {
-    d.hxusd = 0n;
+    d.hedge = 0n;
   } else {
-    d.hxusd = (dep * sp.product_p) / pSnap;
+    d.hedge = (dep * sp.product_p) / pSnap;
   }
   d.product_snap = sp.product_p;
   d.coll_snap = sp.coll_scale;
@@ -86,18 +86,18 @@ export function updateDeposit(d: SpDeposit, sp: StabPool): void {
 
 /** Offset debt against SP; mirrors flexloans::liquidate SP branch */
 export function offset(pool: StabPool, offsetDebt: bigint, offsetColl: bigint): void {
-  if (offsetDebt <= 0n || pool.hxusd <= 0n) return;
-  const spHxusd = pool.hxusd;
-  const take = offsetDebt < spHxusd ? offsetDebt : spHxusd;
+  if (offsetDebt <= 0n || pool.hedge <= 0n) return;
+  const spHedge = pool.hedge;
+  const take = offsetDebt < spHedge ? offsetDebt : spHedge;
   const coll =
     offsetDebt === take
       ? offsetColl
       : (offsetColl * take) / offsetDebt;
-  const remaining = spHxusd - take;
-  const newP = (pool.product_p * remaining) / spHxusd;
-  const collAdd = (coll * pool.product_p) / spHxusd;
+  const remaining = spHedge - take;
+  const newP = (pool.product_p * remaining) / spHedge;
+  const collAdd = (coll * pool.product_p) / spHedge;
   pool.coll_scale += collAdd;
-  pool.hxusd -= take;
+  pool.hedge -= take;
   const epochBump = remaining === 0n || newP < P_MIN;
   if (epochBump) {
     pool.current_epoch += 1;
@@ -108,6 +108,6 @@ export function offset(pool: StabPool, offsetDebt: bigint, offsetColl: bigint): 
 }
 
 export function mintYield(pool: StabPool, interest: bigint): void {
-  if (interest <= 0n || pool.hxusd <= 0n) return;
-  pool.yield_scale += (interest * pool.product_p) / pool.hxusd;
+  if (interest <= 0n || pool.hedge <= 0n) return;
+  pool.yield_scale += (interest * pool.product_p) / pool.hedge;
 }

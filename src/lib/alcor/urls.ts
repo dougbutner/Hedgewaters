@@ -1,24 +1,32 @@
-/** Alcor XPR UI — prefer https://alcor.exchange/v/xpr/* (embed + links). */
+/** Alcor XPR UI — prefer https://alcor.exchange/v/xpr/* (embed + links).
+ * Token ids must match Proton Alcor API casing (lowercase), e.g. easy-mon3y.
+ */
 
-export const EASY_TOKEN_ID = "EASY-mon3y";
-export const XPR_TOKEN_ID = "XPR-eosio.token";
-export const XUSDC_TOKEN_ID = "XUSDC-xtokens";
+export const EASY_TOKEN_ID = "easy-mon3y";
+export const XPR_TOKEN_ID = "xpr-eosio.token";
+export const XUSDC_TOKEN_ID = "xusdc-xtokens";
 
 const BASE = "https://alcor.exchange/v/xpr";
 
-/** Default swap: buy EASY (input XPR → output EASY). */
-export function alcorSwap(opts?: { widget?: boolean; input?: string; output?: string }) {
-  const path = opts?.widget ? "swap-widget" : "swap";
-  const input = opts?.input ?? XPR_TOKEN_ID;
-  const output = opts?.output ?? EASY_TOKEN_ID;
-  return `${BASE}/${path}?input=${encodeURIComponent(input)}&output=${encodeURIComponent(output)}`;
+function pairQuery(input: string, output: string) {
+  return `input=${encodeURIComponent(input)}&output=${encodeURIComponent(output)}`;
 }
 
-/** Chart always paired toward EASY. */
+/** Default swap: buy EASY (input XPR → output EASY). */
+export function alcorSwap(opts?: { widget?: boolean; input?: string; output?: string }) {
+  const input = opts?.input ?? XPR_TOKEN_ID;
+  const output = opts?.output ?? EASY_TOKEN_ID;
+  const q = pairQuery(input, output);
+  // swap-widget / chart-widget 302 → /terminal; /swap keeps the pair and embeds cleanly.
+  if (opts?.widget) return `${BASE}/terminal?${q}`;
+  return `${BASE}/swap?${q}`;
+}
+
+/** Chart / terminal always paired toward EASY. */
 export function alcorChart(opts?: { input?: string; output?: string }) {
   const input = opts?.input ?? XPR_TOKEN_ID;
   const output = opts?.output ?? EASY_TOKEN_ID;
-  return `${BASE}/chart-widget?input=${encodeURIComponent(input)}&output=${encodeURIComponent(output)}`;
+  return `${BASE}/terminal?${pairQuery(input, output)}`;
 }
 
 export function alcorMarkets() {
@@ -50,7 +58,7 @@ export function alcorOtc() {
 }
 
 export function alcorLiquidity() {
-  return `${BASE}/swap?tab=liquidity&input=${encodeURIComponent(XPR_TOKEN_ID)}&output=${encodeURIComponent(EASY_TOKEN_ID)}`;
+  return `${BASE}/swap?tab=liquidity&${pairQuery(XPR_TOKEN_ID, EASY_TOKEN_ID)}`;
 }
 
 export type AlcorTabId =

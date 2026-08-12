@@ -11,7 +11,7 @@ export function pow10(p: number): bigint {
   return r;
 }
 
-/** ICR in bps: coll_usd_e8 / debt_usd_e8 * 10000 (HXUSD ~ $1) */
+/** ICR in bps: coll_usd_e8 / debt_usd_e8 * 10000 (HEDGE ~ $1) */
 export function icrBps(
   collAmt: bigint,
   debtAmt: bigint,

@@ -15,7 +15,8 @@ describe("UI chain math", () => {
     expect(a?.symbol).toBe("XPR");
     expect(a?.precision).toBe(4);
     expect(a?.amount).toBe(125000n);
-    expect(parseAsset("4,HXUSD")?.symbol).toBe("HXUSD");
+    expect(parseAsset("6,HEDGE")?.symbol).toBe("HEDGE");
+    expect(parseAsset("6,HEDGE")?.precision).toBe(6);
     expect(parseDecimalToAsset("1.5", 4, "XPR")).toBe("1.5000 XPR");
   });
 

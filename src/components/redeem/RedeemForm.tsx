@@ -31,9 +31,9 @@ export function RedeemForm({
   const [msg, setMsg] = useState<string | null>(null);
 
   const market = markets.find((m) => String(m.id) === marketId) ?? markets[0];
-  const debtSym = config ? symbolCode(config.debt_symbol) : "HXUSD";
+  const debtSym = config ? symbolCode(config.debt_symbol) : "HEDGE";
   const collSym = market ? symbolCode(market.coll_symbol) || symbolCode(market.total_coll) : "COLL";
-  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 4;
+  const debtPrec = parseAsset(config?.min_debt)?.precision ?? 6;
   const collPrec = parseAsset(market?.total_coll)?.precision ?? 4;
   const feeBps = config?.redeem_fee_floor_bps ?? 0;
 
@@ -62,7 +62,7 @@ export function RedeemForm({
     }
     const q = parseDecimalToAsset(amount, debtPrec, debtSym);
     if (!q) {
-      setErr("Enter a valid HXUSD amount.");
+      setErr("Enter a valid HEDGE amount.");
       return;
     }
     setBusy(true);

@@ -47,7 +47,7 @@ export function UserPosition({
               const coll = parseAsset(p.coll);
               const debt = parseAsset(p.debt);
               const collPrec = coll?.precision ?? 4;
-              const debtPrec = debt?.precision ?? 4;
+              const debtPrec = debt?.precision ?? 6;
               const icr =
                 coll && debt && market
                   ? icrBps(

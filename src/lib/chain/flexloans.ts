@@ -45,7 +45,7 @@ export type FlexPosition = {
 
 export type FlexStabpool = {
   market_id: number | string;
-  hxusd: string;
+  hedge: string;
   coll_balance: string;
   product_p?: number | string;
   current_epoch?: number;
@@ -55,7 +55,7 @@ export type FlexSpDeposit = {
   id: number | string;
   owner: string;
   market_id: number | string;
-  hxusd: string;
+  hedge: string;
   pending_coll?: string;
   pending_yield?: string;
 };
