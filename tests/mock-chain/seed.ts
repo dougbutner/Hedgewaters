@@ -28,9 +28,9 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         redeem_fee_floor_bps: 50,
         redeem_fee_max_bps: 500,
         paused: false,
-        next_pos_id: 3,
-        next_seq: 3,
-        next_sp_id: 2,
+        next_pos_id: 4,
+        next_seq: 4,
+        next_sp_id: 3,
       },
     },
     {
@@ -55,9 +55,9 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         mcr_bps: 11000,
         ccr_bps: 15000,
         mint_cap: "1000000.000000 HEDGE",
-        total_coll: "250000.0000 XPR",
-        total_debt: "20000.000000 HEDGE",
-        total_stake: 2500000000,
+        total_coll: "300000.0000 XPR",
+        total_debt: "24000.000000 HEDGE",
+        total_stake: 3000000000,
         redist_coll_x: 0,
         redist_debt_x: 0,
         paused: false,
@@ -90,7 +90,7 @@ export function flexloansSeedRows(): UpsertRowInput[] {
       primaryKey: 1,
       payload: {
         market_id: 1,
-        hedge: "8000.000000 HEDGE",
+        hedge: "9000.000000 HEDGE",
         coll_balance: "0.0000 XPR",
         product_p: PRODUCT_P,
         coll_scale: 0,
@@ -167,6 +167,42 @@ export function flexloansSeedRows(): UpsertRowInput[] {
         pending_yield: "0.000000 HEDGE",
       },
     },
+    {
+      code,
+      table: "positions",
+      primaryKey: 3,
+      payload: {
+        id: 3,
+        owner: "guda",
+        market_id: 1,
+        coll: "50000.0000 XPR",
+        debt: "4000.000000 HEDGE",
+        rate_bps: 500,
+        seq: 3,
+        stake: 500000000,
+        redist_coll_snap: 0,
+        redist_debt_snap: 0,
+        last_accrue: now,
+        status: 1,
+      },
+    },
+    {
+      code,
+      table: "spdeposits",
+      primaryKey: 2,
+      payload: {
+        id: 2,
+        owner: "guda",
+        market_id: 1,
+        hedge: "1000.000000 HEDGE",
+        product_snap: PRODUCT_P,
+        coll_snap: 0,
+        yield_snap: 0,
+        epoch_snap: 0,
+        pending_coll: "0.0000 XPR",
+        pending_yield: "0.000000 HEDGE",
+      },
+    },
   ];
 }
 
@@ -175,6 +211,9 @@ export function seedFlexloans(store: MockChainStore): void {
   store.upsertRows(flexloansSeedRows());
   store.setBalance(MOCK_HEDGE_TOKEN, "alice", "100.000000 HEDGE");
   store.setBalance("eosio.token", "alice", "5000.0000 XPR");
+  store.setBalance(MOCK_HEDGE_TOKEN, "guda", "2500.000000 HEDGE");
+  store.setBalance("eosio.token", "guda", "12000.0000 XPR");
+  store.setBalance("xtokens", "guda", "0.10000000 XBTC");
   store.setMeta("seed", "flexloans-default");
   store.setMeta("seeded_at", new Date().toISOString());
 }

@@ -17,6 +17,7 @@ When extending the app, match what is already here unless the product owner expl
 
 - **Theme:** True black (`#000000`) with subtle shoreline grain. Flextokens accent is **yellow + `#000000`** for brand wordmark, primary CTA, and selected states only — not a theme wash. Quiet rectangular panels/inputs with thin white hairlines. Primary buttons may use a barely-there trimmed-hedge crown (`#clip-hedge-primary` in `OrganicShapes`). Section breaks use `.water-rule` hairlines. Scrollbars are black-on-black with a light white outline. Headings use IBM Plex Sans weight hierarchy — no giant display fonts. Borrow home is one instrument first (workspace), not a card dashboard.
 - **Stack:** React, Vite, Tailwind, small primitives in `src/components/ui/`.
+- **Mock / test UI:** `npm run dev:mock` serves SQL fixtures from `tests/mock-chain` via Vite middleware (`/v1/chain/*`). Do not invent a second mock layer under `src/`.
 - **Wallets:** Respect multi-account flows (`ConnectButton`, wallet manifest, WebAuth + Anchor). Do not simplify to a single-account-only model without explicit approval.
 - **Copy:** Prefer clear DeFi language; keep **EASY** / **Flextokens** / XPR positioning consistent with in-app Docs and `flex-tokens.md` where relevant.
 

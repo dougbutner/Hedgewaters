@@ -13,6 +13,8 @@ import {
   walletActor,
 } from '@/services/walletSessions';
 import { getActiveWalletId, setActiveWalletId } from '@/services/walletManifest';
+import { USE_MOCK_CHAIN } from '@/services/walletConstants';
+import { mockTransact } from '@/lib/chain/mockTransact';
 
 export function useProton() {
   const [wallets, setWallets] = useState<LoadedWallet[]>([]);
@@ -102,6 +104,11 @@ export function useProton() {
         data: Record<string, unknown>;
       }>
     ) => {
+      if (USE_MOCK_CHAIN) {
+        // Still require an active actor so memos use the connected name (e.g. guda).
+        if (!activeWallet) throw new Error('Not logged in');
+        return mockTransact(actions);
+      }
       if (!activeWallet) throw new Error('Not logged in');
       return transactWithWallet(activeWallet, actions);
     },

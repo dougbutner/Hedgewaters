@@ -147,6 +147,31 @@ describe("mock chain fetch shim", () => {
   });
 });
 
+describe("mock chain actions", () => {
+  it("simulates open# transfer memo", () => {
+    const chain = openMockChain({ dbPath: ":memory:", seed: true });
+    chains.push(chain);
+    const before = chain.rpc.get_table_rows({ code: MOCK_FLEXLOANS, table: "positions" }).rows.length;
+    chain.rpc.push_transaction({
+      actions: [
+        {
+          account: "eosio.token",
+          name: "transfer",
+          data: {
+            from: "guda",
+            to: "flexloans",
+            quantity: "2000.0000 XPR",
+            memo: "open#1#500",
+          },
+        },
+      ],
+    });
+    const after = chain.rpc.get_table_rows({ code: MOCK_FLEXLOANS, table: "positions" }).rows;
+    expect(after.length).toBe(before + 1);
+    expect(after.some((p) => p.owner === "guda" && String(p.coll).startsWith("2000"))).toBe(true);
+  });
+});
+
 describe("default snapshot path", () => {
   it("points under tests/mock-chain/data", () => {
     expect(defaultSnapshotPath()).toContain(path.join("mock-chain", "data"));

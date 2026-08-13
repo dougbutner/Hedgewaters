@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { TopNav } from "@/components/nav/TopNav";
 import { OrganicShapes } from "@/components/ui/OrganicShapes";
+import { TestModeBanner } from "@/components/ui/TestModeBanner";
 
 export function AppShell() {
   const { pathname } = useLocation();
@@ -9,6 +10,7 @@ export function AppShell() {
   return (
     <div className="flex min-h-screen flex-col">
       <OrganicShapes />
+      <TestModeBanner />
       <TopNav />
       {isTerminal ? (
         <main className="flex min-h-0 w-full flex-1 flex-col">

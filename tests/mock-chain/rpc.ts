@@ -3,6 +3,7 @@
  * Drop-in for get_table_rows / get_currency_balance when live RPC is unavailable.
  */
 import type { MockChainStore, TableRowPayload } from "./store";
+import { applyMockActions, type ChainAction } from "./actions";
 
 export type GetTableRowsRequest = {
   json?: boolean;
@@ -48,6 +49,13 @@ export class MockChainRpc {
     return this.store.getCurrencyBalance(req.code, req.account, req.symbol);
   }
 
+  /** UI-shaped push: { actions: ChainAction[] } — not a full Antelope packed tx. */
+  push_transaction(body: { actions?: ChainAction[] }): { transaction_id: string } {
+    const actions = body.actions ?? [];
+    if (!actions.length) throw new Error("mock: push_transaction requires actions[]");
+    return applyMockActions(this.store, actions);
+  }
+
   /** Handle /v1/chain/* POST bodies; returns JSON-serializable result or null if unknown. */
   handleChainPath(pathname: string, body: unknown): unknown | null {
     const path = pathname.replace(/\/+$/, "");
@@ -56,6 +64,17 @@ export class MockChainRpc {
     }
     if (path.endsWith("/v1/chain/get_currency_balance")) {
       return this.get_currency_balance(body as GetCurrencyBalanceRequest);
+    }
+    if (path.endsWith("/v1/chain/push_transaction")) {
+      return this.push_transaction(body as { actions?: ChainAction[] });
+    }
+    if (path.endsWith("/v1/chain/get_info")) {
+      return {
+        server_version: "mock-chain",
+        chain_id: "mock",
+        head_block_num: 1,
+        head_block_time: new Date().toISOString(),
+      };
     }
     return null;
   }
@@ -85,17 +104,24 @@ export function installMockFetch(
     if (init?.body) {
       body = typeof init.body === "string" ? JSON.parse(init.body) : init.body;
     }
-    const result = rpc.handleChainPath(pathname, body);
-    if (result === null) {
-      return new Response(JSON.stringify({ error: "mock rpc: unknown path" }), {
-        status: 404,
+    try {
+      const result = rpc.handleChainPath(pathname, body);
+      if (result === null) {
+        return new Response(JSON.stringify({ error: "mock rpc: unknown path" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      return new Response(JSON.stringify(result), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (err) {
+      return new Response(JSON.stringify({ error: err instanceof Error ? err.message : "mock error" }), {
+        status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
   }) as typeof fetch;
 
   return () => {
